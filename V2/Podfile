@@ -1,7 +1,0 @@
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
-
-target 'FrameExtraction' do
-  use_frameworks!
-  pod 'ImageSlideShowSwift'
-end
