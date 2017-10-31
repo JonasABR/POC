@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E837A4F1FA90C1F00EB4451 /* ImageViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E837A4E1FA90C1F00EB4451 /* ImageViewerViewController.swift */; };
+		33452E231FA9141700C8C8C4 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */; };
 		3A8094A1E4F4BC56BB215075 /* Pods_FrameExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50887634560F2EF725C143C /* Pods_FrameExtraction.framework */; };
 		C3E867761E1488470042F78A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E867751E1488470042F78A /* AppDelegate.swift */; };
 		C3E867781E1488470042F78A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E867771E1488470042F78A /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 		06E63E94B2B54502FF3B0561 /* Pods-FrameExtraction.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrameExtraction.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FrameExtraction/Pods-FrameExtraction.debug.xcconfig"; sourceTree = "<group>"; };
 		0E837A4E1FA90C1F00EB4451 /* ImageViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewController.swift; sourceTree = "<group>"; };
 		1371E42D2EABFB9A43E64AF1 /* Pods-FrameExtraction.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrameExtraction.release.xcconfig"; path = "Pods/Target Support Files/Pods-FrameExtraction/Pods-FrameExtraction.release.xcconfig"; sourceTree = "<group>"; };
+		33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
 		C3E867721E1488470042F78A /* FrameExtraction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrameExtraction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3E867751E1488470042F78A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3E867771E1488470042F78A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				C3E867751E1488470042F78A /* AppDelegate.swift */,
+				33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */,
 				C3E867771E1488470042F78A /* ViewController.swift */,
 				C3E867871E14898D0042F78A /* FrameExtractor.swift */,
 				0E837A4E1FA90C1F00EB4451 /* ImageViewerViewController.swift */,
@@ -129,7 +132,7 @@
 				TargetAttributes = {
 					C3E867711E1488470042F78A = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 6M6R46W299;
+						DevelopmentTeam = B84WST2VA3;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -226,6 +229,7 @@
 			files = (
 				C3E867881E14898D0042F78A /* FrameExtractor.swift in Sources */,
 				C3E867781E1488470042F78A /* ViewController.swift in Sources */,
+				33452E231FA9141700C8C8C4 /* ImageSliderViewController.swift in Sources */,
 				0E837A4F1FA90C1F00EB4451 /* ImageViewerViewController.swift in Sources */,
 				C3E867761E1488470042F78A /* AppDelegate.swift in Sources */,
 			);
@@ -351,11 +355,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6M6R46W299;
+				DEVELOPMENT_TEAM = B84WST2VA3;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jonas.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucio.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -369,11 +373,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6M6R46W299;
+				DEVELOPMENT_TEAM = B84WST2VA3;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jonas.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucio.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

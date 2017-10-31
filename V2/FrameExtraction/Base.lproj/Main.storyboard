@@ -98,5 +98,46 @@
             </objects>
             <point key="canvasLocation" x="274" y="146"/>
         </scene>
+        <!--Image Slider View Controller-->
+        <scene sceneID="qv3-PZ-wvr">
+            <objects>
+                <viewController storyboardIdentifier="ImageSliderViewController" id="NeN-P5-oCE" customClass="ImageSliderViewController" customModule="FrameExtraction" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8Dg-st-pwS"/>
+                        <viewControllerLayoutGuide type="bottom" id="wrR-Ew-5O8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pra-rf-Qwg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPD-NF-ouC">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="69Y-xN-UjZ">
+                                <rect key="frame" x="28" y="601" width="319" height="31"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="NeN-P5-oCE" eventType="valueChanged" id="8m9-LA-10f"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wrR-Ew-5O8" firstAttribute="top" secondItem="69Y-xN-UjZ" secondAttribute="bottom" constant="36" id="1Ag-x5-uCt"/>
+                            <constraint firstItem="XPD-NF-ouC" firstAttribute="leading" secondItem="pra-rf-Qwg" secondAttribute="leading" id="1wi-ig-fuM"/>
+                            <constraint firstItem="wrR-Ew-5O8" firstAttribute="top" secondItem="XPD-NF-ouC" secondAttribute="bottom" id="7oF-nz-9Im"/>
+                            <constraint firstAttribute="trailing" secondItem="69Y-xN-UjZ" secondAttribute="trailing" constant="30" id="QKD-GK-Q99"/>
+                            <constraint firstAttribute="trailing" secondItem="XPD-NF-ouC" secondAttribute="trailing" id="Ru6-XN-Ufr"/>
+                            <constraint firstItem="69Y-xN-UjZ" firstAttribute="leading" secondItem="pra-rf-Qwg" secondAttribute="leading" constant="30" id="Xox-Mk-j0i"/>
+                            <constraint firstItem="XPD-NF-ouC" firstAttribute="top" secondItem="pra-rf-Qwg" secondAttribute="top" id="jOi-Iy-yej"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="XPD-NF-ouC" id="2yx-ea-Gmh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZvE-0s-eTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="264.80000000000001" y="838.83058470764627"/>
+        </scene>
     </scenes>
 </document>
