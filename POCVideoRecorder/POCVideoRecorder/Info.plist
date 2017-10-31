@@ -34,6 +34,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Please authorize media library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please authorize media library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Please authorize camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please authorize microphone</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>please authorize  save to library</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
