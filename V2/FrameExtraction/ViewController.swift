@@ -38,6 +38,11 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     }
 
     @IBAction func showImagesButton(_ sender: Any) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "imaveViewVC") as? ImageViewerViewController {
+            vc.imageArray = self.imagesCollection
+            self.navigationController?.pushViewController(vc, animated: true)
+
+        }
     }
 
     
