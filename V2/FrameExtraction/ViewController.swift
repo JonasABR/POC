@@ -47,7 +47,9 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     
     func captured(image: UIImage) {
-        self.imagesCollection.append(image)
+        DispatchQueue.main.async {
+            self.imagesCollection.append(image)
+        }
         imageView.image = image
     }
     
