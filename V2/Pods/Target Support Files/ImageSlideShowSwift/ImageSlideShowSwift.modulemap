@@ -1,0 +1,6 @@
+framework module ImageSlideShowSwift {
+  umbrella header "ImageSlideShowSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -76,6 +76,14 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         guard captureSession.canAddOutput(videoOutput) else { return }
         captureSession.addOutput(videoOutput)
         guard let connection = videoOutput.connection(withMediaType: AVFoundation.AVMediaTypeVideo) else { return }
+        let maxFps = CMTimeMake(5,1)
+//        if devi {
+//            captureDevice.activeVideoMinFrameDuration = maxFps
+//        }
+//        if connection.supportsVideoMaxFrameDuration {
+//            captureDevice.activeVideoMaxFrameDuration = maxFps
+//        }
+
         guard connection.isVideoOrientationSupported else { return }
         guard connection.isVideoMirroringSupported else { return }
         connection.videoOrientation = .portrait
