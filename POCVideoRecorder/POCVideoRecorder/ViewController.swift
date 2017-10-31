@@ -24,6 +24,42 @@ class ViewController: UIViewController {
     }
 
     @IBAction func recordTap(_ sender: Any) {
+        startCameraFromViewController(self, withDelegate: self)
     }
-    
+
+    func startCameraFromViewController(_ viewController: UIViewController, withDelegate delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) -> Bool {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) == false {
+            return false
+        }
+
+        let cameraController = UIImagePickerController()
+        cameraController.sourceType = .camera
+        cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
+        cameraController.allowsEditing = false
+        cameraController.delegate = delegate
+        present(cameraController, animated: true, completion: nil)
+        return true
+    }
 }
+
+extension ViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+        dismiss(animated: true, completion: nil)
+        // Handle a movie capture
+        if mediaType == kUTTypeMovie {
+
+            //save to sandbox
+            guard let path = (info[UIImagePickerControllerMediaURL] as! NSURL).path else { return }
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path) {
+                UISaveVideoAtPathToSavedPhotosAlbum(path, self, nil, nil)
+            }
+        }
+    }
+
+}
+
+extension ViewController: UINavigationControllerDelegate {
+}
+
+
