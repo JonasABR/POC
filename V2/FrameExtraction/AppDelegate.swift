@@ -2,8 +2,7 @@
 //  AppDelegate.swift
 //  FrameExtraction
 //
-//  Created by Bobo on 29/12/2016.
-//  Copyright © 2016 bRo. All rights reserved.
+//  Created by Avenue Code on 31/10/17.
 //
 
 import UIKit

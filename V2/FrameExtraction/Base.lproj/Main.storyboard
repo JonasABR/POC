@@ -5,8 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -42,19 +41,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="678"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RXT-fd-Jyx">
-                                <rect key="frame" x="136" y="571" width="110" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="6jf-3a-kte"/>
-                                    <constraint firstAttribute="height" constant="30" id="EeL-AY-eih"/>
-                                </constraints>
-                                <state key="normal" title="Show Images">
-                                    <color key="titleColor" red="1" green="0.13432056549999999" blue="0.2580353132" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="showImagesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mfq-d2-fTy"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sP-e1-UgL">
                                 <rect key="frame" x="164" y="504" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,10 +51,6 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RXT-fd-Jyx" secondAttribute="bottom" constant="66" id="C2h-cy-ICl"/>
-                            <constraint firstItem="RXT-fd-Jyx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="120" id="b6Y-4Z-QK9"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hVa-lK-Fnd"/>
                     <connections>
@@ -78,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-649" y="138"/>
+            <point key="canvasLocation" x="-650.39999999999998" y="137.18140929535232"/>
         </scene>
         <!--Image Slider View Controller-->
         <scene sceneID="qv3-PZ-wvr">

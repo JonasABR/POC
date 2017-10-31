@@ -2,8 +2,7 @@
 //  ImageSliderViewController.swift
 //  FrameExtraction
 //
-//  Created by Avenue Brazil on 31/10/17.
-//  Copyright © 2017 bRo. All rights reserved.
+//  Created by Avenue Code on 31/10/17.
 //
 
 import UIKit

@@ -1,7 +1,10 @@
 //
-//  ViewController.swift
-//  Created by Bobo on 29/12/2016.
+//  ImageSliderViewController.swift
+//  FrameExtraction
 //
+//  Created by Avenue Code on 31/10/17.
+//
+
 
 import UIKit
 
@@ -12,10 +15,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     @IBOutlet var captureButton: UIButton!
     
     @IBOutlet weak var imageView: UIImageView!
-    
-    @IBAction func flipButton(_ sender: UIButton) {
-        frameExtractor.flipCamera()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,23 +28,32 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     @IBAction func stopButton(_ sender: Any) {
         if frameExtractor != nil {
-            self.frameExtractor = nil
-            self.captureButton.setTitle("Start", for: .normal)
-        } else {
-            initFrameExtractor()
-            self.captureButton.setTitle("Stop", for: .normal)
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
+                skipFrames()
+                vc.imagesArray = self.imagesCollection
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
-
-    @IBAction func showImagesButton(_ sender: Any) {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
-            vc.imagesArray = self.imagesCollection
-            self.navigationController?.pushViewController(vc, animated: true)
-
-        }
-    }
-
     
+    func skipFrames(){
+        var imagesCollection = [UIImage]()
+        let imageCount = self.imagesCollection.count
+        let neededImage = 30
+        let stepSize = imageCount / neededImage
+       
+        // The first 10 frames are, while the camera is starting, ignoring them
+        imagesCollection.append(self.imagesCollection[10])
+
+        for currentImage in 1..<neededImage {
+            let currentIndex = stepSize * currentImage
+            imagesCollection.append(self.imagesCollection[currentIndex])
+        }
+        
+        self.imagesCollection = imagesCollection
+
+    }
+
     func captured(image: UIImage) {
         DispatchQueue.main.async {
             self.imagesCollection.append(image)
