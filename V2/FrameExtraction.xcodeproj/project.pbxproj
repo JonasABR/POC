@@ -132,7 +132,7 @@
 				TargetAttributes = {
 					C3E867711E1488470042F78A = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = B84WST2VA3;
+						DevelopmentTeam = 6M6R46W299;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -355,11 +355,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B84WST2VA3;
+				DEVELOPMENT_TEAM = 6M6R46W299;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucio.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jonas.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -373,11 +373,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B84WST2VA3;
+				DEVELOPMENT_TEAM = 6M6R46W299;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucio.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jonas.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
