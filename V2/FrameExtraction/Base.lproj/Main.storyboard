@@ -76,22 +76,18 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPD-NF-ouC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="69Y-xN-UjZ">
-                                <rect key="frame" x="28" y="601" width="319" height="31"/>
+                                <gestureRecognizers/>
                                 <connections>
-                                    <action selector="sliderValueChanged:" destination="NeN-P5-oCE" eventType="valueChanged" id="8m9-LA-10f"/>
+                                    <outletCollection property="gestureRecognizers" destination="MH3-co-XlH" appends="YES" id="jqI-JJ-SY8"/>
+                                    <outletCollection property="gestureRecognizers" destination="au0-Zq-Jo2" appends="YES" id="uV2-ju-PJW"/>
                                 </connections>
-                            </slider>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wrR-Ew-5O8" firstAttribute="top" secondItem="69Y-xN-UjZ" secondAttribute="bottom" constant="36" id="1Ag-x5-uCt"/>
                             <constraint firstItem="XPD-NF-ouC" firstAttribute="leading" secondItem="pra-rf-Qwg" secondAttribute="leading" id="1wi-ig-fuM"/>
                             <constraint firstItem="wrR-Ew-5O8" firstAttribute="top" secondItem="XPD-NF-ouC" secondAttribute="bottom" id="7oF-nz-9Im"/>
-                            <constraint firstAttribute="trailing" secondItem="69Y-xN-UjZ" secondAttribute="trailing" constant="30" id="QKD-GK-Q99"/>
                             <constraint firstAttribute="trailing" secondItem="XPD-NF-ouC" secondAttribute="trailing" id="Ru6-XN-Ufr"/>
-                            <constraint firstItem="69Y-xN-UjZ" firstAttribute="leading" secondItem="pra-rf-Qwg" secondAttribute="leading" constant="30" id="Xox-Mk-j0i"/>
                             <constraint firstItem="XPD-NF-ouC" firstAttribute="top" secondItem="pra-rf-Qwg" secondAttribute="top" id="jOi-Iy-yej"/>
                         </constraints>
                     </view>
@@ -100,8 +96,18 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZvE-0s-eTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="right" id="MH3-co-XlH">
+                    <connections>
+                        <action selector="righGesture:" destination="NeN-P5-oCE" id="mX1-ZI-O5l"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="left" id="au0-Zq-Jo2">
+                    <connections>
+                        <action selector="leftGesture:" destination="NeN-P5-oCE" id="db8-RM-QAm"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="264.80000000000001" y="838.83058470764627"/>
+            <point key="canvasLocation" x="193" y="137"/>
         </scene>
     </scenes>
 </document>

@@ -8,21 +8,28 @@
 import UIKit
 
 class ImageSliderViewController: UIViewController {
-
+  
+    private var currentIndex:Int = 0
     @IBOutlet weak var imageView: UIImageView!
     var imagesArray: [UIImage]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageView.isUserInteractionEnabled = true;
         self.imageView.image = imagesArray?.first
     }
-
-    @IBAction func sliderValueChanged(_ sender: UISlider) {
-        if let imagesCount = self.imagesArray?.count, imagesCount > 0 {
-            let currentIndex:Int = Int(Float(imagesCount - 1) * sender.value)
+    
+    @IBAction func leftGesture(_ sender: UISwipeGestureRecognizer) {
+        if (currentIndex > 0){
+            currentIndex-=1
             self.imageView.image = self.imagesArray?[currentIndex]
         }
     }
-
+    
+    @IBAction func righGesture(_ sender: UISwipeGestureRecognizer) {
+        if (self.imagesArray?.count)! > currentIndex {
+            currentIndex+=1
+            self.imageView.image = self.imagesArray?[currentIndex]
+        }
+    }
 }
