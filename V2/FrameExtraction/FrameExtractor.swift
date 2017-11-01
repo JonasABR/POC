@@ -13,7 +13,7 @@ protocol FrameExtractorDelegate: class {
 class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private var position = AVCaptureDevicePosition.front
-    private let quality = AVCaptureSessionPresetMedium
+    private let quality = AVCaptureSessionPresetHigh
     
     private var permissionGranted = false
     private let sessionQueue = DispatchQueue(label: "session queue")
@@ -64,6 +64,8 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         captureSession.addOutput(videoOutput)
         guard let connection = videoOutput.connection(withMediaType: AVFoundation.AVMediaTypeVideo) else { return }
         let maxFps = CMTimeMake(10,10)
+
+
         guard connection.isVideoOrientationSupported else { return }
         guard connection.isVideoMirroringSupported else { return }
         connection.videoOrientation = .portrait
