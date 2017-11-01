@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, FrameExtractorDelegate {
     
-    var frameExtractor: FrameExtractor!
+    var frameExtractor: FrameExtractor?
     var imagesCollection = [UIImage]()
     @IBOutlet var captureButton: UIButton!
     
@@ -22,12 +22,13 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     }
 
     func initFrameExtractor() {
-        frameExtractor = FrameExtractor()
-        frameExtractor.delegate = self
+        self.frameExtractor = FrameExtractor()
+        self.frameExtractor?.delegate = self
     }
 
     @IBAction func stopButton(_ sender: Any) {
-        if frameExtractor != nil {
+        if self.frameExtractor != nil {
+            self.frameExtractor = nil
             if let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
                 skipFrames()
                 vc.imagesArray = self.imagesCollection
