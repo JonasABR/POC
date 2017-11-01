@@ -17,6 +17,7 @@ class ImageSliderViewController: UIViewController {
         super.viewDidLoad()
         imageView.isUserInteractionEnabled = true;
         self.imageView.image = imagesArray?.first
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     @IBAction func leftGesture(_ sender: UISwipeGestureRecognizer) {

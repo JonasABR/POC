@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EF29A5F1FAA234E001ED04D /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF29A5D1FAA234E001ED04D /* TutorialViewController.swift */; };
+		0EF29A601FAA234E001ED04D /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EF29A5E1FAA234E001ED04D /* TutorialViewController.xib */; };
 		33452E231FA9141700C8C8C4 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */; };
 		C3E867761E1488470042F78A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E867751E1488470042F78A /* AppDelegate.swift */; };
 		C3E867781E1488470042F78A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E867771E1488470042F78A /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0EF29A5D1FAA234E001ED04D /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		0EF29A5E1FAA234E001ED04D /* TutorialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
 		33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
 		C3E867721E1488470042F78A /* FrameExtraction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrameExtraction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3E867751E1488470042F78A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +43,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0EF29A5C1FAA233F001ED04D /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				0EF29A5D1FAA234E001ED04D /* TutorialViewController.swift */,
+				0EF29A5E1FAA234E001ED04D /* TutorialViewController.xib */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
 		C3E867691E1488470042F78A = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +71,7 @@
 		C3E867741E1488470042F78A /* FrameExtraction */ = {
 			isa = PBXGroup;
 			children = (
+				0EF29A5C1FAA233F001ED04D /* Tutorial */,
 				C3E867751E1488470042F78A /* AppDelegate.swift */,
 				33452E221FA9141700C8C8C4 /* ImageSliderViewController.swift */,
 				C3E867771E1488470042F78A /* ViewController.swift */,
@@ -102,7 +116,7 @@
 				TargetAttributes = {
 					C3E867711E1488470042F78A = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = TGFG6V99RV;
+						DevelopmentTeam = 6M6R46W299;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -132,6 +146,7 @@
 			files = (
 				C3E867801E1488470042F78A /* LaunchScreen.storyboard in Resources */,
 				C3E8677D1E1488470042F78A /* Assets.xcassets in Resources */,
+				0EF29A601FAA234E001ED04D /* TutorialViewController.xib in Resources */,
 				C3E8677B1E1488470042F78A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +160,7 @@
 			files = (
 				C3E867881E14898D0042F78A /* FrameExtractor.swift in Sources */,
 				C3E867781E1488470042F78A /* ViewController.swift in Sources */,
+				0EF29A5F1FAA234E001ED04D /* TutorialViewController.swift in Sources */,
 				33452E231FA9141700C8C8C4 /* ImageSliderViewController.swift in Sources */,
 				C3E867761E1488470042F78A /* AppDelegate.swift in Sources */,
 			);
@@ -269,11 +285,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TGFG6V99RV;
+				DEVELOPMENT_TEAM = 6M6R46W299;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ac.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ac.jonas.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -286,11 +302,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TGFG6V99RV;
+				DEVELOPMENT_TEAM = 6M6R46W299;
 				INFOPLIST_FILE = FrameExtraction/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ac.FrameExtraction;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ac.jonas.FrameExtraction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
