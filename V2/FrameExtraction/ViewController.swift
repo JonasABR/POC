@@ -9,58 +9,72 @@
 import UIKit
 
 class ViewController: UIViewController, FrameExtractorDelegate {
-    
-    var frameExtractor: FrameExtractor?
+
+    var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
+    var isRunning = false
     @IBOutlet var captureButton: UIButton!
-    
+
     @IBOutlet weak var imageView: UIImageView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        initFrameExtractor()
+        self.initFrameExtractor()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        self.isRunning = false
+        self.imagesCollection = [UIImage]()
+        self.captureButton.setTitle("Continue", for: .normal)
     }
 
     func initFrameExtractor() {
-        self.frameExtractor = FrameExtractor()
-        self.frameExtractor?.delegate = self
+        frameExtractor = FrameExtractor()
+        frameExtractor.delegate = self
     }
 
     @IBAction func stopButton(_ sender: Any) {
-        if self.frameExtractor != nil {
-            self.frameExtractor = nil
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
+        if isRunning {
+            self.captureButton.setTitle("Continue", for: .normal)
+            self.isRunning = false
+            if let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
                 skipFrames()
                 vc.imagesArray = self.imagesCollection
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        } else {
+            self.isRunning = true
+            self.captureButton.setTitle("Stop", for: .normal)
+
         }
     }
-    
+
     func skipFrames(){
         var imagesCollection = [UIImage]()
         let imageCount = self.imagesCollection.count
         let neededImage = 30
         let stepSize = imageCount / neededImage
-       
-        // The first 10 frames are, while the camera is starting, ignoring them
-        imagesCollection.append(self.imagesCollection[10])
 
         for currentImage in 1..<neededImage {
             let currentIndex = stepSize * currentImage
             imagesCollection.append(self.imagesCollection[currentIndex])
         }
-        
+
         self.imagesCollection = imagesCollection
 
     }
 
     func captured(image: UIImage) {
-        DispatchQueue.main.async {
-            self.imagesCollection.append(image)
+        if isRunning {
+            DispatchQueue.main.async {
+                self.imagesCollection.append(image)
+            }
         }
         imageView.image = image
     }
-    
-}
 
+}
