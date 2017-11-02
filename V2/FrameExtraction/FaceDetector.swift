@@ -2,8 +2,7 @@
 //  FaceDetector.swift
 //  FaceVision
 //
-//  Created by Igor K on 6/7/17.
-//  Copyright © 2017 Igor K. All rights reserved.
+//  Created by Avenue Code on 31/10/17
 //
 
 import UIKit
@@ -11,30 +10,65 @@ import Vision
 
 class FaceDetector {
     
-    open func highlightFaces(for source: UIImage, complete: @escaping (UIImage) -> Void) {
+    func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
+        return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
+    }
+    
+    func getPupil(eyePoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
+        let leftEyePoints = eye.normalizedPoints
+        var minimumXLeft : CGFloat = 1000
+        var maximumXLeft : CGFloat = 0
+        var minimumYLeft : CGFloat = 1000
+        var maximumYLeft : CGFloat = 0
+        for point in leftEyePoints{
+            if (point.x < minimumXLeft){
+                minimumXLeft = point.x
+            }
+            if (point.x > maximumXLeft){
+                maximumXLeft = point.x
+            }
+            if (point.y < minimumYLeft){
+                minimumYLeft = point.y
+            }
+            if (point.y > maximumYLeft){
+                maximumYLeft = point.y
+            }
+        }
+        
+        let middleXLeft = (minimumXLeft + maximumXLeft)  / 2
+        let middleYLeft = (minimumYLeft + maximumYLeft)  / 2
+
+        return CGPoint(x: middleXLeft, y: middleYLeft)
+    }
+
+
+    open func highlightFaces(for source: UIImage, cardSize: CGFloat, complete: @escaping (UIImage) -> Void) {
         var resultImage = source
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
                 if let results = request.results as? [VNFaceObservation] {
-                    print("Found \(results.count) faces")
                     
                     for faceObservation in results {
                         guard let landmarks = faceObservation.landmarks else {
                             continue
                         }
                         let boundingRect = faceObservation.boundingBox
-                        //let uuid = faceObservation.uuid
-                        //let conf = faceObservation.confidence
+                      
                         var landmarkRegions: [VNFaceLandmarkRegion2D] = []
-                        if let faceContour = landmarks.faceContour {
+
+                        /* All the possible detections
+                                               
+                       if let faceContour = landmarks.faceContour {
                             landmarkRegions.append(faceContour)
                         }
-                        if let leftEye = landmarks.leftEye {
-                            landmarkRegions.append(leftEye)
-                        }
-                        if let rightEye = landmarks.rightEye {
-                            landmarkRegions.append(rightEye)
-                        }
+                        
+                         if let leftEye = landmarkRegions.leftEye {
+                             landmarkRegions.append(leftEye)
+                         }
+                         if let rightEye = rightEye {
+                         landmarkRegions.append(rightEye)
+                         }
+
                         if let nose = landmarks.nose {
                             landmarkRegions.append(nose)
                         }
@@ -47,13 +81,14 @@ class FaceDetector {
                         if let outerLips = landmarks.outerLips {
                             landmarkRegions.append(outerLips)
                         }
-                        /*
+                        
                          if let leftEyebrow = landmarks.leftEyebrow {
                          landmarkRegions.append(leftEyebrow)
                          }
                          if let rightEyebrow = landmarks.rightEyebrow {
                          landmarkRegions.append(rightEyebrow)
                          }
+                        
                          
                          if let innerLips = landmarks.innerLips {
                          landmarkRegions.append(innerLips)
@@ -63,13 +98,17 @@ class FaceDetector {
                          }
                          if let rightPupil = landmarks.rightPupil {
                          landmarkRegions.append(rightPupil)
-                         }
-                         */
+                         }*/
+                        
+                        let pixelMmRatio : CGFloat
+                        pixelMmRatio = 86 / cardSize
                         resultImage = self.drawOnImage(source: resultImage,
                                                   boundingRect: boundingRect,
-                                                  faceLandmarkRegions: landmarkRegions)
-                        
-                        
+                                                  faceLandmarkRegions: landmarkRegions,
+                                                  leftPupil: (landmarks.leftPupil?.normalizedPoints.first)!,
+                                                  rightPupil: (landmarks.rightPupil?.normalizedPoints.first)!,
+                                                  ratio: pixelMmRatio)
+
                     }
                 }
             } else {
@@ -77,14 +116,34 @@ class FaceDetector {
             }
             complete(resultImage)
         }
-        
+    
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
         try? vnImage.perform([detectFaceRequest])
     }
     
+    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat) -> Void) {
+        var cardWidth : CGFloat  = 1
+        let detectCreditCardRequest = VNDetectRectanglesRequest { (request, error) in
+            if error == nil {
+                if let results = request.results as? [VNRectangleObservation] {
+                    for rectangles in results {
+                       cardWidth = source.size.width * rectangles.boundingBox.size.width
+                    }
+                }
+            }
+            complete(cardWidth)
+        }
+        
+        let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
+        try? vnImage.perform([detectCreditCardRequest])
+    }
+
     fileprivate func drawOnImage(source: UIImage,
                                  boundingRect: CGRect,
-                                 faceLandmarkRegions: [VNFaceLandmarkRegion2D]) -> UIImage {
+                                 faceLandmarkRegions: [VNFaceLandmarkRegion2D],
+                                 leftPupil: CGPoint,
+                                 rightPupil: CGPoint,
+                                 ratio: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(source.size, false, 1)
         let context = UIGraphicsGetCurrentContext()!
         context.translateBy(x: 0, y: source.size.height)
@@ -101,30 +160,53 @@ class FaceDetector {
         //draw image
         let rect = CGRect(x: 0, y:0, width: source.size.width, height: source.size.height)
         context.draw(source.cgImage!, in: rect)
-        
-        
-        //draw bound rect
-        var fillColor = UIColor.green
-        fillColor.setFill()
-        context.addRect(CGRect(x: boundingRect.origin.x * source.size.width, y:boundingRect.origin.y * source.size.height, width: rectWidth, height: rectHeight))
-        context.drawPath(using: CGPathDrawingMode.stroke)
-        
+
         //draw overlay
-        fillColor = UIColor.red
+        let fillColor = UIColor.red
         fillColor.setStroke()
-        context.setLineWidth(4.0)
+        /* Not drawing all the points
         for faceLandmarkRegion in faceLandmarkRegions {
             var points: [CGPoint] = []
             for i in 0..<faceLandmarkRegion.pointCount {
+                points.removeAll()
                 let point = faceLandmarkRegion.normalizedPoints[i]
-                let p = CGPoint(x: CGFloat(point.x), y: CGFloat(point.y))
-                points.append(p)
+                let centerPoint = CGPoint(x: CGFloat(boundingRect.origin.x * source.size.width + point.x * rectWidth), y: CGFloat(boundingRect.origin.y * source.size.height + point.y * rectHeight))
+                points.append(CGPoint(x: CGFloat(centerPoint.x - 1), y: CGFloat(centerPoint.y)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x + 1), y: CGFloat(centerPoint.y)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x), y: CGFloat(centerPoint.y - 1)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x), y: CGFloat(centerPoint.y + 1)))
+                context.addLines(between: points)
             }
-            let mappedPoints = points.map { CGPoint(x: boundingRect.origin.x * source.size.width + $0.x * rectWidth, y: boundingRect.origin.y * source.size.height + $0.y * rectHeight) }
-            context.addLines(between: mappedPoints)
             context.drawPath(using: CGPathDrawingMode.stroke)
-        }
+        }*/
+
+        // For now, we are just drawing the line between the pupils
+        var points: [CGPoint] = []
+        points.removeAll()
+        let leftPupilPoint = CGPoint(x: CGFloat(boundingRect.origin.x * source.size.width + leftPupil.x * rectWidth), y: CGFloat(boundingRect.origin.y * source.size.height + leftPupil.y * rectHeight))
+        let rightPupilPoint = CGPoint(x: CGFloat(boundingRect.origin.x * source.size.width + rightPupil.x * rectWidth), y: CGFloat(boundingRect.origin.y * source.size.height + rightPupil.y * rectHeight))
+        points.append(leftPupilPoint)
+        points.append(rightPupilPoint)
         
+        context.addLines(between: points)
+        context.drawPath(using: CGPathDrawingMode.stroke)
+        
+        
+        let pupilDistance = self.distance(from: leftPupilPoint, to: rightPupilPoint) * ratio
+        // Range for pupil distance
+        if (pupilDistance > 40 && pupilDistance < 81){
+            let attrs = [
+                NSFontAttributeName: UIFont.systemFont(ofSize: 20),
+                NSForegroundColorAttributeName: UIColor.red]
+            
+            let pupilDistanceString = "\(pupilDistance.rounded()) mm"
+            // TODO: This is being rendered mirrored, I have no idea why
+            pupilDistanceString.draw(at: leftPupilPoint, withAttributes: attrs)
+
+            // Debug purposes
+            print("PD: \(pupilDistanceString)")
+        }
+
         let coloredImg : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return coloredImg

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FrameExtraction/ViewController.swift"
-            timestampString = "531249518.554016"
+            timestampString = "531355023.15503"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "skipFrames()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FrameExtraction/ViewController.swift"
-            timestampString = "531249518.554509"
+            timestampString = "531355023.155117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FrameExtraction/ViewController.swift"
-            timestampString = "531249518.554784"
+            timestampString = "531355023.155186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -58,12 +58,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FrameExtraction/ViewController.swift"
-            timestampString = "531249518.555128"
+            timestampString = "531355023.155251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
             landmarkName = "stopButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FrameExtraction/FaceDetector.swift"
+            timestampString = "531355023.155319"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "drawOnImage(source:boundingRect:faceLandmarkRegions:leftPupil:rightPupil:ratio:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FrameExtraction.FaceDetector.(drawOnImage in _3A3456BC303594797601844870854B3F)(source: __ObjC.UIImage, boundingRect: __C.CGRect, faceLandmarkRegions: Swift.Array&lt;__ObjC.VNFaceLandmarkRegion2D&gt;) -&gt; __ObjC.UIImage"
+                  moduleName = "FrameExtraction"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avenuecode/Documents/POCVideoToImage/V2/FrameExtraction/FaceDetector.swift"
+                  timestampString = "531252604.254709"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "1808">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.CGPoint) -&gt; __C.CGPoint in FrameExtraction.FaceDetector.(drawOnImage in _3A3456BC303594797601844870854B3F)(source: __ObjC.UIImage, boundingRect: __C.CGRect, faceLandmarkRegions: Swift.Array&lt;__ObjC.VNFaceLandmarkRegion2D&gt;) -&gt; __ObjC.UIImage"
+                  moduleName = "FrameExtraction"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avenuecode/Documents/POCVideoToImage/V2/FrameExtraction/FaceDetector.swift"
+                  timestampString = "531252604.2571"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FrameExtraction/FaceDetector.swift"
+            timestampString = "531355023.155933"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "drawOnImage(source:boundingRect:faceLandmarkRegions:leftPupil:rightPupil:ratio:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

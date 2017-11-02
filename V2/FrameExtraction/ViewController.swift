@@ -46,6 +46,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                 vc.imagesArray = self.imagesCollection
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+            
         } else {
             self.isRunning = true
             self.captureButton.setTitle("Stop", for: .normal)

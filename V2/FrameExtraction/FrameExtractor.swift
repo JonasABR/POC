@@ -19,6 +19,7 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     private let sessionQueue = DispatchQueue(label: "session queue")
     private let captureSession = AVCaptureSession()
     private let context = CIContext()
+    private var cardSize : CGFloat = 0
     
     weak var delegate: FrameExtractorDelegate?
     
@@ -91,10 +92,19 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         let faceDetector = FaceDetector()
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
-        faceDetector.highlightFaces(for: uiImage) { (resultImage) in
-            DispatchQueue.main.async {
-                self.delegate?.captured(image: resultImage)
+        
+        faceDetector.detectCardSize(for: uiImage) { (cardSize) in
+            self.cardSize = cardSize
+        }
+        // Only call it if detected the card
+        if (self.cardSize != 1){
+            faceDetector.highlightFaces(for: uiImage, cardSize: self.cardSize) { (resultImage) in
+                DispatchQueue.main.async {
+                    self.delegate?.captured(image: resultImage)
+                }
             }
         }
+//
+
     }
 }
