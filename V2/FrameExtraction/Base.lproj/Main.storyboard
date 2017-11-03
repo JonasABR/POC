@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Sa-io-EkG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Sa-io-EkG">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -51,15 +52,42 @@
                                     <action selector="stopButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5ja-BZ-Jqn"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LnR-ek-ajF">
+                                <rect key="frame" x="16" y="637" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Arm-WY-XFb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ke-O2-dTx">
+                                <rect key="frame" x="137" y="575" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="jAd-qJ-gXc"/>
+                                    <constraint firstAttribute="height" constant="30" id="vyE-KL-SM9"/>
+                                </constraints>
+                                <state key="normal" title="Calculate PD"/>
+                                <connections>
+                                    <action selector="calculatePD:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6rp-Gj-ETf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="LnR-ek-ajF" secondAttribute="trailing" id="8Oa-ff-lC4"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LnR-ek-ajF" secondAttribute="bottom" id="9uh-AR-zJz"/>
+                            <constraint firstItem="1ke-O2-dTx" firstAttribute="top" secondItem="3sP-e1-UgL" secondAttribute="bottom" constant="8" id="JAo-hD-zFq"/>
+                            <constraint firstItem="LnR-ek-ajF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Ry0-Cv-xNh"/>
                             <constraint firstItem="3sP-e1-UgL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ch1-Tm-4tN"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3sP-e1-UgL" secondAttribute="bottom" constant="100" id="faV-su-g3L"/>
+                            <constraint firstItem="1ke-O2-dTx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wCX-o8-xoU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hVa-lK-Fnd"/>
                     <connections>
+                        <outlet property="PDLabel" destination="LnR-ek-ajF" id="cPX-uH-SqY"/>
                         <outlet property="captureButton" destination="3sP-e1-UgL" id="qnH-36-bdC"/>
                         <outlet property="imageView" destination="LKL-Lr-zk7" id="T9v-14-b75"/>
                     </connections>

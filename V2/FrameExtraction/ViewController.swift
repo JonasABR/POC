@@ -12,8 +12,9 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
-    var isRunning = false
+    var isRunning = true
     @IBOutlet var captureButton: UIButton!
+    @IBOutlet var PDLabel: UILabel!
 
     @IBOutlet weak var imageView: UIImageView!
 
@@ -42,20 +43,44 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         frameExtractor.delegate = self
     }
 
+    func pushToViewer() {
+        if let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
+            vc.imagesArray = self.imagesCollection
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
     @IBAction func stopButton(_ sender: Any) {
         if isRunning {
             self.captureButton.setTitle("Continue", for: .normal)
             self.isRunning = false
-            if let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
-                skipFrames()
-                vc.imagesArray = self.imagesCollection
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            
+            skipFrames()
+            pushToViewer()
         } else {
             self.isRunning = true
             self.captureButton.setTitle("Stop", for: .normal)
 
+        }
+    }
+
+    @IBAction func calculatePD(_ sender: Any) {
+        let faceDetector = FaceDetector()
+        guard let uiImage = self.imagesCollection.last else { return }
+        var cardSize = CGFloat.nan
+        faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected) in
+            cardSize = cardSizeDetected
+            // Only call it if detected the card
+            if (cardSize != 1){
+                faceDetector.highlightFaces(for: uiImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
+                    if success {
+                        if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: resultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
+                            self.imagesCollection = []
+                            self.imagesCollection.append(newImage)
+                            self.pushToViewer()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -82,5 +107,4 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         }
         imageView.image = image
     }
-
 }

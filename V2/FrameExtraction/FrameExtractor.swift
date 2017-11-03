@@ -98,15 +98,16 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         // Only call it if detected the card
         if (self.cardSize != 1){
-            faceDetector.highlightFaces(for: uiImage, cardSize: self.cardSize) { (resultImage) in
-                DispatchQueue.main.async {
+            faceDetector.highlightFaces(for: uiImage, cardSize: self.cardSize) { (resultImage, success, pdDistance) in
+                DispatchQueue.main.sync {
                     self.delegate?.captured(image: resultImage)
                 }
             }
         } else {
-            self.delegate?.captured(image: uiImage)
+            DispatchQueue.main.sync {
+                self.delegate?.captured(image: uiImage)
+            }
         }
-//
 
     }
 }

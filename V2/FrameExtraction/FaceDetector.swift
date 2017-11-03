@@ -42,7 +42,7 @@ class FaceDetector {
     }
 
 
-    open func highlightFaces(for source: UIImage, cardSize: CGFloat, complete: @escaping (UIImage) -> Void) {
+    open func highlightFaces(for source: UIImage, cardSize: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
         var resultImage = source
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
@@ -101,20 +101,21 @@ class FaceDetector {
                          }*/
                         
                         let pixelMmRatio : CGFloat
-                        pixelMmRatio = 86 / cardSize
-                        resultImage = self.drawOnImage(source: resultImage,
+                        pixelMmRatio = 85.6 / cardSize
+                        let tupleResult = self.drawOnImage(source: resultImage,
                                                   boundingRect: boundingRect,
                                                   faceLandmarkRegions: landmarkRegions,
                                                   leftPupil: (landmarks.leftPupil?.normalizedPoints.first)!,
                                                   rightPupil: (landmarks.rightPupil?.normalizedPoints.first)!,
                                                   ratio: pixelMmRatio)
+                        complete(tupleResult.0, tupleResult.1, tupleResult.2)
 
                     }
                 }
             } else {
                 print(error!.localizedDescription)
             }
-            complete(resultImage)
+            complete(resultImage, false, "")
         }
     
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
@@ -143,7 +144,7 @@ class FaceDetector {
                                  faceLandmarkRegions: [VNFaceLandmarkRegion2D],
                                  leftPupil: CGPoint,
                                  rightPupil: CGPoint,
-                                 ratio: CGFloat) -> UIImage {
+                                 ratio: CGFloat) -> (UIImage, Bool, String) {
         UIGraphicsBeginImageContextWithOptions(source.size, false, 1)
         let context = UIGraphicsGetCurrentContext()!
         context.translateBy(x: 0, y: source.size.height)
@@ -191,7 +192,7 @@ class FaceDetector {
         context.addLines(between: points)
         context.drawPath(using: CGPathDrawingMode.stroke)
         
-        
+        var pupilDistanceString = ""
         let pupilDistance = self.distance(from: leftPupilPoint, to: rightPupilPoint) * ratio
         // Range for pupil distance
         if (pupilDistance > 40 && pupilDistance < 81){
@@ -199,23 +200,21 @@ class FaceDetector {
                 NSFontAttributeName: UIFont.systemFont(ofSize: 20),
                 NSForegroundColorAttributeName: UIColor.red]
             
-            let pupilDistanceString = "\(pupilDistance.rounded()) mm"
+            pupilDistanceString = "\(pupilDistance.rounded()) mm"
             // TODO: This is being rendered mirrored, I have no idea why
-            pupilDistanceString.drawFlipped(in: CGRect.init(x: 50, y: 50, width: 100.0, height: 100.0), withAttributes: attrs)
             //pupilDistanceString.draw(at: leftPupilPoint, withAttributes: attrs)
-
+            //pupilDistanceString.drawFlipped(in: CGRect.init(x: 50, y: 50, width: 100.0, height: 100.0), withAttributes: attrs)
             // Debug purposes
             print("PD: \(pupilDistanceString)")
         }
 
         let coloredImg : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        return coloredImg
+        return (coloredImg, true, pupilDistanceString)
     }
 }
 
 extension String {
-
     func drawFlipped(in rect: CGRect, withAttributes attributes: [String: Any]) {
         guard let gc = UIGraphicsGetCurrentContext() else { return }
         gc.saveGState()
@@ -225,5 +224,43 @@ extension String {
         self.draw(in: CGRect(origin: .zero, size: rect.size), withAttributes: attributes)
     }
 
+    func textToImage(drawText: String, inImage: UIImage, atPoint: CGPoint) -> UIImage? {
+
+        // Setup the font specific variables
+        let textColor = UIColor.black
+        let textFont = UIFont(name: "Helvetica Bold", size: 28)!
+
+        // Setup the image context using the passed image
+        let scale = inImage.scale
+        UIGraphicsBeginImageContextWithOptions(inImage.size, false, scale)
+
+        // Setup the font attributes that will be later used to dictate how the text should be drawn
+        let textFontAttributes = [
+            NSFontAttributeName: textFont,
+            NSForegroundColorAttributeName: textColor,
+            ] as [String : Any]
+
+        // Put the image into a rectangle as large as the original image
+        inImage.draw(in: CGRect.init(x: 0, y: 0, width: inImage.size.width, height: inImage.size.height))
+
+        // Create a point within the space that is as bit as the image
+        let rect = CGRect.init(x: atPoint.x, y: atPoint.y, width: inImage.size.width, height: inImage.size.height)
+
+        // Draw the text into an image
+        drawText.draw(in: rect, withAttributes: textFontAttributes)
+
+        // Create a new image out of the images we have created
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        // End the context now that we have the image we need
+        UIGraphicsEndImageContext()
+
+        //Pass the image back up to the caller
+        return newImage ?? nil
+
+    }
+
+
 }
+
 
