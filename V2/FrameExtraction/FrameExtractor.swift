@@ -103,6 +103,8 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.delegate?.captured(image: resultImage)
                 }
             }
+        } else {
+            self.delegate?.captured(image: uiImage)
         }
 //
 

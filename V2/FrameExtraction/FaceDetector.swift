@@ -201,7 +201,8 @@ class FaceDetector {
             
             let pupilDistanceString = "\(pupilDistance.rounded()) mm"
             // TODO: This is being rendered mirrored, I have no idea why
-            pupilDistanceString.draw(at: leftPupilPoint, withAttributes: attrs)
+            pupilDistanceString.drawFlipped(in: CGRect.init(x: 50, y: 50, width: 100.0, height: 100.0), withAttributes: attrs)
+            //pupilDistanceString.draw(at: leftPupilPoint, withAttributes: attrs)
 
             // Debug purposes
             print("PD: \(pupilDistanceString)")
@@ -212,3 +213,17 @@ class FaceDetector {
         return coloredImg
     }
 }
+
+extension String {
+
+    func drawFlipped(in rect: CGRect, withAttributes attributes: [String: Any]) {
+        guard let gc = UIGraphicsGetCurrentContext() else { return }
+        gc.saveGState()
+        defer { gc.restoreGState() }
+        gc.translateBy(x: rect.origin.x, y: rect.origin.y + rect.size.height)
+        gc.scaleBy(x: 1, y: -1)
+        self.draw(in: CGRect(origin: .zero, size: rect.size), withAttributes: attributes)
+    }
+
+}
+
