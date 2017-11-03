@@ -19,10 +19,15 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initFrameExtractor()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.initFrameExtractor()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.frameExtractor = nil
     }
 
     override func didReceiveMemoryWarning() {
