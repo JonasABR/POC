@@ -131,7 +131,6 @@ class FaceDetector {
                     for rectangles in results {
                         resultImage = self.drawCardBounds(source: resultImage, topLeft: rectangles.topLeft, bottomLeft: rectangles.bottomLeft, topRight: rectangles.topRight, bottomRight: rectangles.bottomRight)
                         cardWidth = source.size.width * rectangles.boundingBox.size.width
-                        print("TL \(rectangles.topLeft) - BL \(rectangles.bottomLeft) - TR \(rectangles.topRight) - BR \(rectangles.bottomRight)")
                     }
                 }
             }

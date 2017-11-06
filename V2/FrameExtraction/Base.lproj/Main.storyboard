@@ -73,6 +73,11 @@
                                     <action selector="calculatePD:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6rp-Gj-ETf"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="headShape" translatesAutoresizingMaskIntoConstraints="NO" id="gnV-O5-cdI">
+                                <rect key="frame" x="61" y="196" width="251" height="276"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.47171559460000001" green="0.79797444880000001" blue="0.35884204269999997" alpha="0.33640514960000001" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -89,6 +94,7 @@
                     <connections>
                         <outlet property="PDLabel" destination="LnR-ek-ajF" id="cPX-uH-SqY"/>
                         <outlet property="captureButton" destination="3sP-e1-UgL" id="qnH-36-bdC"/>
+                        <outlet property="faceShapeImageView" destination="gnV-O5-cdI" id="xzC-kg-HOA"/>
                         <outlet property="imageView" destination="LKL-Lr-zk7" id="T9v-14-b75"/>
                     </connections>
                 </viewController>
@@ -144,4 +150,7 @@
             <point key="canvasLocation" x="193" y="137"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="headShape" width="1600" height="1600"/>
+    </resources>
 </document>

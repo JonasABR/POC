@@ -11,6 +11,8 @@ import CoreMotion
 
 class ViewController: UIViewController, FrameExtractorDelegate {
 
+
+    @IBOutlet weak var faceShapeImageView: UIImageView!
     var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
     var isRunning = true
@@ -32,7 +34,10 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         if coreMotion.isDeviceMotionActive {
             coreMotion.startDeviceMotionUpdates(to: OperationQueue.main) { (data: CMDeviceMotion?, error) in
                 if let data = data {
-                    print("pitch \(data.attitude.pitch * 180/Double.pi)")
+                    print("A: \(data.attitude.pitch * 180/Double.pi)")
+                    print("YAW: \(data.attitude.yaw * 180/Double.pi)")
+                    print("ROLL: \(data.attitude.roll * 180/Double.pi)")
+                    self.rotateFaceIndicator(angle: (data.attitude.pitch * 180/Double.pi) - 90)
 
                 }
             }
@@ -119,5 +124,26 @@ class ViewController: UIViewController, FrameExtractorDelegate {
             }
         }
         imageView.image = image
+    }
+
+
+
+    func rotateFaceIndicator(angle:Double) {
+
+        //print("Angle \(angle)")
+
+        var finalAngle = angle
+        if angle < -45.0 {
+            finalAngle = -45.0
+        } else if angle > 45.0 {
+            finalAngle = 45.0
+        }
+
+        let layer = self.faceShapeImageView.layer
+        var rotationAndPerspectiveTransform = CATransform3DIdentity
+        rotationAndPerspectiveTransform.m34 = 1.0 / -200
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(finalAngle * -Double.pi / 180.0), 1.0, 0, 0.0)
+        layer.transform = rotationAndPerspectiveTransform
+        layer.zPosition = 1000
     }
 }
