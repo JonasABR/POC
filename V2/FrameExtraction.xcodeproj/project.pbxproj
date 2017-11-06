@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E035E7D1FB0E4CE009998D1 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E035E7C1FB0E4A5009998D1 /* CoreMotion.framework */; };
 		0EF29A5F1FAA234E001ED04D /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF29A5D1FAA234E001ED04D /* TutorialViewController.swift */; };
 		0EF29A601FAA234E001ED04D /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EF29A5E1FAA234E001ED04D /* TutorialViewController.xib */; };
 		0EF9B5131FAA383700C9DB2B /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9B5121FAA383600C9DB2B /* FaceDetector.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E035E7C1FB0E4A5009998D1 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		0EF29A5D1FAA234E001ED04D /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		0EF29A5E1FAA234E001ED04D /* TutorialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
 		0EF9B5121FAA383600C9DB2B /* FaceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
@@ -39,12 +41,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E035E7D1FB0E4CE009998D1 /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E035E7B1FB0E4A4009998D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E035E7C1FB0E4A5009998D1 /* CoreMotion.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0EF29A5C1FAA233F001ED04D /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +70,7 @@
 			children = (
 				C3E867741E1488470042F78A /* FrameExtraction */,
 				C3E867731E1488470042F78A /* Products */,
+				0E035E7B1FB0E4A4009998D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

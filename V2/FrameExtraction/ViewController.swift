@@ -7,6 +7,7 @@
 
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController, FrameExtractorDelegate {
 
@@ -15,15 +16,28 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     var isRunning = true
     @IBOutlet var captureButton: UIButton!
     @IBOutlet var PDLabel: UILabel!
+    var coreMotion = CMMotionManager()
 
     @IBOutlet weak var imageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.coreMotion.deviceMotionUpdateInterval = 0.1;
+        coreMotion.startDeviceMotionUpdates()
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.initFrameExtractor()
+        if coreMotion.isDeviceMotionActive {
+            coreMotion.startDeviceMotionUpdates(to: OperationQueue.main) { (data: CMDeviceMotion?, error) in
+                if let data = data {
+                    print("pitch \(data.attitude.pitch * 180/Double.pi)")
+
+                }
+            }
+
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
