@@ -122,21 +122,62 @@ class FaceDetector {
         try? vnImage.perform([detectFaceRequest])
     }
     
-    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat) -> Void) {
+    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat, UIImage?) -> Void) {
         var cardWidth : CGFloat  = 1
         let detectCreditCardRequest = VNDetectRectanglesRequest { (request, error) in
+            var resultImage:UIImage? = source
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
-                       cardWidth = source.size.width * rectangles.boundingBox.size.width
+                        resultImage = self.drawCardBounds(source: resultImage, topLeft: rectangles.topLeft, bottomLeft: rectangles.bottomLeft, topRight: rectangles.topRight, bottomRight: rectangles.bottomRight)
+                        cardWidth = source.size.width * rectangles.boundingBox.size.width
+                        print("TL \(rectangles.topLeft) - BL \(rectangles.bottomLeft) - TR \(rectangles.topRight) - BR \(rectangles.bottomRight)")
                     }
                 }
             }
-            complete(cardWidth)
+            complete(cardWidth, resultImage)
         }
         
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
         try? vnImage.perform([detectCreditCardRequest])
+    }
+
+    func drawCardBounds(source:UIImage?, topLeft:CGPoint, bottomLeft:CGPoint, topRight:CGPoint, bottomRight:CGPoint) -> UIImage? {
+
+        guard let image = source else {
+            return nil
+        }
+
+        let convertedTopLeft = CGPoint(x: topLeft.x * image.size.width, y: image.size.height - (topLeft.y * image.size.height))
+        let convertedTopRight = CGPoint(x: topRight.x * image.size.width, y: image.size.height - (topRight.y * image.size.height))
+        let convertedBottomLeft = CGPoint(x: bottomLeft.x * image.size.width, y: image.size.height - (bottomLeft.y * image.size.height))
+        let convertedBottomRight = CGPoint(x: bottomRight.x * image.size.width, y: image.size.height - (bottomRight.y * image.size.height))
+
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(at: .zero)
+        let context = UIGraphicsGetCurrentContext()
+        
+        context?.setLineWidth(3.0)
+        context?.setStrokeColor(UIColor.green.cgColor)
+        context?.move(to: convertedTopRight)
+        context?.addLine(to: convertedBottomRight)
+        context?.strokePath()
+
+        context?.move(to: convertedBottomRight)
+        context?.addLine(to: convertedBottomLeft)
+        context?.strokePath()
+
+        context?.move(to: convertedBottomLeft)
+        context?.addLine(to: convertedTopLeft)
+        context?.strokePath()
+
+        context?.move(to: convertedTopLeft)
+        context?.addLine(to: convertedTopRight)
+        context?.strokePath()
+
+        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resultImage
     }
 
     fileprivate func drawOnImage(source: UIImage,

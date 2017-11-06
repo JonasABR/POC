@@ -92,20 +92,22 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         let faceDetector = FaceDetector()
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
-        
-        faceDetector.detectCardSize(for: uiImage) { (cardSize) in
+
+        var squareImage: UIImage?
+        faceDetector.detectCardSize(for: uiImage) { (cardSize, _resultImage) in
+            squareImage = _resultImage
             self.cardSize = cardSize
         }
         // Only call it if detected the card
         if (self.cardSize != 1){
-            faceDetector.highlightFaces(for: uiImage, cardSize: self.cardSize) { (resultImage, success, pdDistance) in
+            faceDetector.highlightFaces(for: squareImage ?? uiImage, cardSize: self.cardSize) { (resultImage, success, pdDistance) in
                 DispatchQueue.main.sync {
                     self.delegate?.captured(image: resultImage)
                 }
             }
         } else {
             DispatchQueue.main.sync {
-                self.delegate?.captured(image: uiImage)
+                self.delegate?.captured(image: squareImage ?? uiImage)
             }
         }
 

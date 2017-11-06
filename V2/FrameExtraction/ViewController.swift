@@ -35,7 +35,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         super.didReceiveMemoryWarning()
         self.isRunning = false
         self.imagesCollection = [UIImage]()
-        self.captureButton.setTitle("Continue", for: .normal)
     }
 
     func initFrameExtractor() {
@@ -67,7 +66,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let faceDetector = FaceDetector()
         guard let uiImage = self.imagesCollection.last else { return }
         var cardSize = CGFloat.nan
-        faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected) in
+        faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected, resultImage) in
             cardSize = cardSizeDetected
             // Only call it if detected the card
             if (cardSize != 1){
