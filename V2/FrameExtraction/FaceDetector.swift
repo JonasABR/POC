@@ -14,7 +14,7 @@ class FaceDetector {
         return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
     }
     
-    func getPupil(eyePoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
+    func getPupilCenter(pupilPoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
         let leftEyePoints = eye.normalizedPoints
         var minimumXLeft : CGFloat = 1000
         var maximumXLeft : CGFloat = 0
@@ -105,8 +105,8 @@ class FaceDetector {
                         let tupleResult = self.drawOnImage(source: resultImage,
                                                   boundingRect: boundingRect,
                                                   faceLandmarkRegions: landmarkRegions,
-                                                  leftPupil: (landmarks.leftPupil?.normalizedPoints.first)!,
-                                                  rightPupil: (landmarks.rightPupil?.normalizedPoints.first)!,
+                                                  leftPupil: self.getPupilCenter(pupilPoint: landmarks.leftPupil!),
+                                                  rightPupil: self.getPupilCenter(pupilPoint: landmarks.rightPupil!),
                                                   ratio: pixelMmRatio)
                         complete(tupleResult.0, tupleResult.1, tupleResult.2)
 
