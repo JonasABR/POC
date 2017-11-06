@@ -14,7 +14,7 @@ class FaceDetector {
         return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
     }
     
-    func getPupil(eyePoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
+    func getPupilCenter(pupilPoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
         let leftEyePoints = eye.normalizedPoints
         var minimumXLeft : CGFloat = 1000
         var maximumXLeft : CGFloat = 0
@@ -105,8 +105,8 @@ class FaceDetector {
                         let tupleResult = self.drawOnImage(source: resultImage,
                                                   boundingRect: boundingRect,
                                                   faceLandmarkRegions: landmarkRegions,
-                                                  leftPupil: (landmarks.leftPupil?.normalizedPoints.first)!,
-                                                  rightPupil: (landmarks.rightPupil?.normalizedPoints.first)!,
+                                                  leftPupil: self.getPupilCenter(pupilPoint: landmarks.leftPupil!),
+                                                  rightPupil: self.getPupilCenter(pupilPoint: landmarks.rightPupil!),
                                                   ratio: pixelMmRatio)
                         complete(tupleResult.0, tupleResult.1, tupleResult.2)
 
@@ -155,25 +155,19 @@ class FaceDetector {
 
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: .zero)
-        let context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()!
+        context.setLineWidth(3.0)
+        context.setStrokeColor(UIColor.green.cgColor)
         
-        context?.setLineWidth(3.0)
-        context?.setStrokeColor(UIColor.green.cgColor)
-        context?.move(to: convertedTopRight)
-        context?.addLine(to: convertedBottomRight)
-        context?.strokePath()
-
-        context?.move(to: convertedBottomRight)
-        context?.addLine(to: convertedBottomLeft)
-        context?.strokePath()
-
-        context?.move(to: convertedBottomLeft)
-        context?.addLine(to: convertedTopLeft)
-        context?.strokePath()
-
-        context?.move(to: convertedTopLeft)
-        context?.addLine(to: convertedTopRight)
-        context?.strokePath()
+        var points: [CGPoint] = []
+        points.append(convertedTopLeft)
+        points.append(convertedTopRight)
+        points.append(convertedBottomRight)
+        points.append(convertedBottomLeft)
+        points.append(convertedTopLeft)
+        
+        context.addLines(between: points)
+        context.drawPath(using: CGPathDrawingMode.stroke)
 
         let resultImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -237,10 +231,6 @@ class FaceDetector {
         let pupilDistance = self.distance(from: leftPupilPoint, to: rightPupilPoint) * ratio
         // Range for pupil distance
         if (pupilDistance > 40 && pupilDistance < 81){
-            let attrs = [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 20),
-                NSForegroundColorAttributeName: UIColor.red]
-            
             pupilDistanceString = "\(pupilDistance.rounded()) mm"
             // TODO: This is being rendered mirrored, I have no idea why
             //pupilDistanceString.draw(at: leftPupilPoint, withAttributes: attrs)
