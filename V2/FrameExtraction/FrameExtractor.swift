@@ -89,7 +89,7 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-       // let faceDetector = FaceDetector()
+        let faceDetector = FaceDetector()
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
         DispatchQueue.main.sync {
             self.delegate?.captured(image: uiImage)
@@ -113,7 +113,8 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             DispatchQueue.main.sync {
                 self.delegate?.captured(image: squareImage ?? uiImage)
             }
-        }*/
+        }
+ */
 
     }
 }

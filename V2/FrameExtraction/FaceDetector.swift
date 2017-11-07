@@ -135,7 +135,10 @@ class FaceDetector {
             }
             complete(cardWidth, resultImage)
         }
-        
+        detectCreditCardRequest.maximumObservations = 0
+        detectCreditCardRequest.minimumAspectRatio = 0.6
+        detectCreditCardRequest.maximumAspectRatio = 0.7
+       // detectCreditCardRequest.
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
         try? vnImage.perform([detectCreditCardRequest])
     }
