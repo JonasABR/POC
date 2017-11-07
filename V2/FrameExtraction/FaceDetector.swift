@@ -57,7 +57,7 @@ class FaceDetector {
                         var landmarkRegions: [VNFaceLandmarkRegion2D] = []
 
                         /* All the possible detections
-                                               
+
                        if let faceContour = landmarks.faceContour {
                             landmarkRegions.append(faceContour)
                         }
@@ -88,7 +88,6 @@ class FaceDetector {
                          if let rightEyebrow = landmarks.rightEyebrow {
                          landmarkRegions.append(rightEyebrow)
                          }
-                        
                          
                          if let innerLips = landmarks.innerLips {
                          landmarkRegions.append(innerLips)
@@ -105,8 +104,8 @@ class FaceDetector {
                         let tupleResult = self.drawOnImage(source: resultImage,
                                                   boundingRect: boundingRect,
                                                   faceLandmarkRegions: landmarkRegions,
-                                                  leftPupil: self.getPupilCenter(pupilPoint: landmarks.leftPupil!),
-                                                  rightPupil: self.getPupilCenter(pupilPoint: landmarks.rightPupil!),
+                                                  leftPupil: self.getPupilCenter(pupilPoint: landmarks.leftEye!),
+                                                  rightPupil: self.getPupilCenter(pupilPoint: landmarks.rightEye!),
                                                   ratio: pixelMmRatio)
                         complete(tupleResult.0, tupleResult.1, tupleResult.2)
 
@@ -199,7 +198,9 @@ class FaceDetector {
         //draw overlay
         let fillColor = UIColor.red
         fillColor.setStroke()
-        /* Not drawing all the points
+        context.setLineWidth(2.0)
+
+        
         for faceLandmarkRegion in faceLandmarkRegions {
             var points: [CGPoint] = []
             for i in 0..<faceLandmarkRegion.pointCount {
@@ -213,7 +214,7 @@ class FaceDetector {
                 context.addLines(between: points)
             }
             context.drawPath(using: CGPathDrawingMode.stroke)
-        }*/
+        }
 
         // For now, we are just drawing the line between the pupils
         var points: [CGPoint] = []

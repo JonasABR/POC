@@ -11,7 +11,9 @@ import CoreMotion
 
 class ViewController: UIViewController, FrameExtractorDelegate {
 
-
+    @IBOutlet weak var instructions: UILabel!
+    
+    @IBOutlet weak var frameFront: UIImageView!
     @IBOutlet weak var faceShapeImageView: UIImageView!
     var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
@@ -26,22 +28,21 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         super.viewDidLoad()
         self.coreMotion.deviceMotionUpdateInterval = 0.1;
         coreMotion.startDeviceMotionUpdates()
-
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.initFrameExtractor()
         if coreMotion.isDeviceMotionActive {
             coreMotion.startDeviceMotionUpdates(to: OperationQueue.main) { (data: CMDeviceMotion?, error) in
                 if let data = data {
-                    print("A: \(data.attitude.pitch * 180/Double.pi)")
-                    print("YAW: \(data.attitude.yaw * 180/Double.pi)")
-                    print("ROLL: \(data.attitude.roll * 180/Double.pi)")
-                    self.rotateFaceIndicator(angle: (data.attitude.pitch * 180/Double.pi) - 90)
-
+                    var angle = data.attitude.pitch * 180/Double.pi - 90 // Angle relative to top position
+                    if (data.gravity.z > 0){
+                        angle *= -1
+                    }
+                    self.rotateFaceIndicator(angle: angle)
                 }
             }
-
         }
     }
 
@@ -85,11 +86,14 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let faceDetector = FaceDetector()
         guard let uiImage = self.imagesCollection.last else { return }
         var cardSize = CGFloat.nan
+        var squareImage: UIImage!
+
         faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected, resultImage) in
             cardSize = cardSizeDetected
+            squareImage = resultImage
             // Only call it if detected the card
             if (cardSize != 1){
-                faceDetector.highlightFaces(for: uiImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
+                faceDetector.highlightFaces(for: squareImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
                     if success {
                         if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: resultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
@@ -126,23 +130,20 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         imageView.image = image
     }
 
-
-
     func rotateFaceIndicator(angle:Double) {
-
-        //print("Angle \(angle)")
-
-        var finalAngle = angle
-        if angle < -45.0 {
-            finalAngle = -45.0
-        } else if angle > 45.0 {
-            finalAngle = 45.0
-        }
-
         let layer = self.faceShapeImageView.layer
+        if (abs(angle) > 3){
+            layer.backgroundColor = UIColor(red:1.0, green: 0.0, blue: 0.0, alpha: 0.2).cgColor
+            instructions.text = "Tilt your phone to upright position"
+        }
+        else{
+            layer.backgroundColor = UIColor(red:0.0, green: 1.0, blue: 0.0, alpha: 0.4).cgColor
+            instructions.text = "Make sure your face is within the green rectangle"
+        }
+        
         var rotationAndPerspectiveTransform = CATransform3DIdentity
         rotationAndPerspectiveTransform.m34 = 1.0 / -200
-        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(finalAngle * -Double.pi / 180.0), 1.0, 0, 0.0)
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * -Double.pi / 180.0), 1.0, 0, 0.0)
         layer.transform = rotationAndPerspectiveTransform
         layer.zPosition = 1000
     }

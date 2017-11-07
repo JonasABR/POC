@@ -66,7 +66,6 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let connection = videoOutput.connection(withMediaType: AVFoundation.AVMediaTypeVideo) else { return }
         let maxFps = CMTimeMake(10,10)
 
-
         guard connection.isVideoOrientationSupported else { return }
         guard connection.isVideoMirroringSupported else { return }
         connection.videoOrientation = .portrait
@@ -90,10 +89,15 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        let faceDetector = FaceDetector()
+       // let faceDetector = FaceDetector()
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
+        DispatchQueue.main.sync {
+            self.delegate?.captured(image: uiImage)
+        }
 
-        var squareImage: UIImage?
+      /*
+         For the Pupil Distance use case, we don't need to check (or draw) anything on real time, hence, commenting this out for now
+         var squareImage: UIImage?
         faceDetector.detectCardSize(for: uiImage) { (cardSize, _resultImage) in
             squareImage = _resultImage
             self.cardSize = cardSize
@@ -109,7 +113,7 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             DispatchQueue.main.sync {
                 self.delegate?.captured(image: squareImage ?? uiImage)
             }
-        }
+        }*/
 
     }
 }
