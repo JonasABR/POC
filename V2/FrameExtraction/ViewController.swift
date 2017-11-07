@@ -86,8 +86,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let faceDetector = FaceDetector()
         guard let uiImage = self.imagesCollection.last else { return }
         var cardSize = CGFloat.nan
-        var squareImage: UIImage!
-
         self.faceShapeImageView.isHidden = true
         UIGraphicsBeginImageContextWithOptions(self.faceShapeImageView.frame.size, false, UIScreen.main.scale)
         self.view.drawHierarchy(in: CGRect.init(x: -self.faceShapeImageView.frame.origin.x, y: -self.faceShapeImageView.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.height ), afterScreenUpdates: true)
