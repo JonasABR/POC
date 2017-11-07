@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Sa-io-EkG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Sa-io-EkG">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -90,10 +90,13 @@
                                     <action selector="calculatePD:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6rp-Gj-ETf"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="headShape" translatesAutoresizingMaskIntoConstraints="NO" id="gnV-O5-cdI">
-                                <rect key="frame" x="62" y="175" width="251" height="276"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="headShape" translatesAutoresizingMaskIntoConstraints="NO" id="gnV-O5-cdI">
+                                <rect key="frame" x="62" y="195.5" width="251" height="276"/>
                                 <color key="backgroundColor" red="0.47171559460000001" green="0.79797444880000001" blue="0.35884204269999997" alpha="0.33640514960000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="276" id="5Fg-Yr-6Yx"/>
+                                    <constraint firstAttribute="width" constant="251" id="67D-kM-SuE"/>
+                                </constraints>
                             </imageView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frameFront" translatesAutoresizingMaskIntoConstraints="NO" id="LuM-BE-Ps3">
                                 <rect key="frame" x="73" y="444" width="240" height="128"/>
@@ -102,12 +105,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="gnV-O5-cdI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="5AP-D2-wee"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LnR-ek-ajF" secondAttribute="trailing" id="8Oa-ff-lC4"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LnR-ek-ajF" secondAttribute="bottom" id="9uh-AR-zJz"/>
                             <constraint firstItem="1ke-O2-dTx" firstAttribute="top" secondItem="3sP-e1-UgL" secondAttribute="bottom" constant="8" id="JAo-hD-zFq"/>
                             <constraint firstItem="LnR-ek-ajF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Ry0-Cv-xNh"/>
                             <constraint firstItem="3sP-e1-UgL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ch1-Tm-4tN"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3sP-e1-UgL" secondAttribute="bottom" constant="100" id="faV-su-g3L"/>
+                            <constraint firstItem="gnV-O5-cdI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gtP-OO-bWW"/>
                             <constraint firstItem="1ke-O2-dTx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wCX-o8-xoU"/>
                         </constraints>
                     </view>

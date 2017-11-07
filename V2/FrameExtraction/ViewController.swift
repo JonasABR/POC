@@ -88,12 +88,20 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         var cardSize = CGFloat.nan
         var squareImage: UIImage!
 
-        faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected, resultImage) in
+        self.faceShapeImageView.isHidden = true
+        UIGraphicsBeginImageContextWithOptions(self.faceShapeImageView.frame.size, false, UIScreen.main.scale)
+        self.view.drawHierarchy(in: CGRect.init(x: -self.faceShapeImageView.frame.origin.x, y: -self.faceShapeImageView.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.height ), afterScreenUpdates: true)
+        let CreditCardCroppedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        self.faceShapeImageView.isHidden = false
+
+
+        faceDetector.detectCardSize(for: CreditCardCroppedImage ?? uiImage) { (cardSizeDetected, resultImage) in
             cardSize = cardSizeDetected
             squareImage = resultImage
             // Only call it if detected the card
             if (cardSize != 1){
-                faceDetector.highlightFaces(for: squareImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
+                faceDetector.highlightFaces(for: uiImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
                     if success {
                         if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: resultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
