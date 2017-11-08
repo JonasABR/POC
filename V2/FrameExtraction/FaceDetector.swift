@@ -41,6 +41,111 @@ class FaceDetector {
         return CGPoint(x: middleXLeft, y: middleYLeft)
     }
 
+    
+    open func highlightFacePoints(for source: UIImage, complete: @escaping (UIImage) -> Void) {
+        
+        let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
+            if error == nil {
+                if let results = request.results as? [VNFaceObservation] {
+                    
+                    for faceObservation in results {
+                        guard let landmarks = faceObservation.landmarks else {
+                            continue
+                        }
+                        let boundingRect = faceObservation.boundingBox
+                        
+                        var landmarkRegions: [VNFaceLandmarkRegion2D] = []
+                        
+                         if let faceContour = landmarks.faceContour {
+                            landmarkRegions.append(faceContour)
+                         }
+                         
+                         if let leftEye = landmarks.leftEye {
+                            landmarkRegions.append(leftEye)
+                         }
+                         if let rightEye = landmarks.rightEye {
+                            landmarkRegions.append(rightEye)
+                         }
+                         
+                         if let nose = landmarks.nose {
+                            landmarkRegions.append(nose)
+                         }
+                         if let noseCrest = landmarks.noseCrest {
+                            landmarkRegions.append(noseCrest)
+                         }
+                         if let medianLine = landmarks.medianLine {
+                            landmarkRegions.append(medianLine)
+                         }
+                        
+                         if let leftEyebrow = landmarks.leftEyebrow {
+                            landmarkRegions.append(leftEyebrow)
+                         }
+                         if let rightEyebrow = landmarks.rightEyebrow {
+                            landmarkRegions.append(rightEyebrow)
+                         }
+                        
+                        let resultImage = self.drawFacePoints(source: source,
+                                                           boundingRect: boundingRect,
+                                                           faceLandmarkRegions: landmarkRegions)
+                        complete(resultImage)
+                        return
+                        
+                    }
+                }
+            } else {
+                print(error!.localizedDescription)
+            }
+            complete(source)
+        }
+        
+        let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
+        try? vnImage.perform([detectFaceRequest])
+    }
+
+    fileprivate func drawFacePoints(source: UIImage,
+                                 boundingRect: CGRect,
+                                 faceLandmarkRegions: [VNFaceLandmarkRegion2D]) -> (UIImage) {
+        UIGraphicsBeginImageContextWithOptions(source.size, false, 1)
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: 0, y: source.size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.setBlendMode(CGBlendMode.colorBurn)
+        context.setLineJoin(.round)
+        context.setLineCap(.round)
+        context.setShouldAntialias(true)
+        context.setAllowsAntialiasing(true)
+        
+        let rectWidth = source.size.width * boundingRect.size.width
+        let rectHeight = source.size.height * boundingRect.size.height
+        
+        //draw image
+        let rect = CGRect(x: 0, y:0, width: source.size.width, height: source.size.height)
+        context.draw(source.cgImage!, in: rect)
+        
+        //draw overlay
+        let fillColor = UIColor.red
+        fillColor.setStroke()
+        context.setLineWidth(2.0)
+        
+        for faceLandmarkRegion in faceLandmarkRegions {
+            var points: [CGPoint] = []
+            for i in 0..<faceLandmarkRegion.pointCount {
+                points.removeAll()
+                let point = faceLandmarkRegion.normalizedPoints[i]
+                let centerPoint = CGPoint(x: CGFloat(boundingRect.origin.x * source.size.width + point.x * rectWidth), y: CGFloat(boundingRect.origin.y * source.size.height + point.y * rectHeight))
+                points.append(CGPoint(x: CGFloat(centerPoint.x - 1), y: CGFloat(centerPoint.y)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x + 1), y: CGFloat(centerPoint.y)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x), y: CGFloat(centerPoint.y - 1)))
+                points.append(CGPoint(x: CGFloat(centerPoint.x), y: CGFloat(centerPoint.y + 1)))
+                context.addLines(between: points)
+            }
+            context.drawPath(using: CGPathDrawingMode.stroke)
+        }
+        
+        let coloredImg : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return (coloredImg)
+    }
 
     open func highlightFaces(for source: UIImage, pixelMmRatio: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
         
@@ -159,7 +264,7 @@ class FaceDetector {
         detectCreditCardRequest.minimumAspectRatio = 0.6
         detectCreditCardRequest.maximumAspectRatio = 0.7
         //detectCreditCardRequest.minimumSize = 0.1
-        //detectCreditCardRequest.quadratureTolerance = 10
+        detectCreditCardRequest.quadratureTolerance = 10
         let vnImage = VNImageRequestHandler(cgImage: imageToDetect.cgImage!, options: [:])
         try? vnImage.perform([detectCreditCardRequest])
     }

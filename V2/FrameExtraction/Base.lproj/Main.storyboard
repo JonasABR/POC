@@ -57,13 +57,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sP-e1-UgL">
-                                <rect key="frame" x="112" y="537" width="150" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sP-e1-UgL">
+                                <rect key="frame" x="23" y="575" width="150" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="csZ-8G-jqr"/>
                                     <constraint firstAttribute="height" constant="30" id="zMo-gD-n4u"/>
                                 </constraints>
-                                <state key="normal" title="Start"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
                                     <action selector="stopButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5ja-BZ-Jqn"/>
                                 </connections>
@@ -78,14 +81,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ke-O2-dTx">
-                                <rect key="frame" x="137" y="575" width="100" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ke-O2-dTx">
+                                <rect key="frame" x="223" y="575" width="100" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="jAd-qJ-gXc"/>
                                     <constraint firstAttribute="height" constant="30" id="vyE-KL-SM9"/>
                                 </constraints>
-                                <state key="normal" title="Measure PD"/>
+                                <state key="normal" title="Measure PD">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="calculatePD:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6rp-Gj-ETf"/>
                                 </connections>
@@ -97,10 +102,6 @@
                                     <constraint firstAttribute="height" constant="276" id="5Fg-Yr-6Yx"/>
                                     <constraint firstAttribute="width" constant="251" id="67D-kM-SuE"/>
                                 </constraints>
-                            </imageView>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frameFront" translatesAutoresizingMaskIntoConstraints="NO" id="LuM-BE-Ps3">
-                                <rect key="frame" x="73" y="444" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -149,6 +150,10 @@
                                     <outletCollection property="gestureRecognizers" destination="MH3-co-XlH" appends="YES" id="jqI-JJ-SY8"/>
                                     <outletCollection property="gestureRecognizers" destination="au0-Zq-Jo2" appends="YES" id="uV2-ju-PJW"/>
                                 </connections>
+                            </imageView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frameFront" translatesAutoresizingMaskIntoConstraints="NO" id="LuM-BE-Ps3">
+                                <rect key="frame" x="67" y="249" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -89,32 +89,9 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        let faceDetector = FaceDetector()
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
         DispatchQueue.main.sync {
             self.delegate?.captured(image: uiImage)
         }
-
-      /*
-         For the Pupil Distance use case, we don't need to check (or draw) anything on real time, hence, commenting this out for now
-         var squareImage: UIImage?
-        faceDetector.detectCardSize(for: uiImage) { (cardSize, _resultImage, success) in
-            squareImage = _resultImage
-            self.cardSize = cardSize
-        }
-        // Only call it if detected the card
-        if (self.cardSize != 1){
-            faceDetector.highlightFaces(for: squareImage ?? uiImage, cardSize: self.cardSize) { (resultImage, success, pdDistance) in
-                DispatchQueue.main.sync {
-                    self.delegate?.captured(image: resultImage)
-                }
-            }
-        } else {
-            DispatchQueue.main.sync {
-                self.delegate?.captured(image: squareImage ?? uiImage)
-            }
-        }
- */
-
     }
 }

@@ -18,6 +18,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
     var isRunning = true
+    var isCapturing = false
     @IBOutlet var captureButton: UIButton!
     @IBOutlet var PDLabel: UILabel!
     var coreMotion = CMMotionManager()
@@ -70,15 +71,19 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     }
 
     @IBAction func stopButton(_ sender: Any) {
-        if isRunning {
-            self.captureButton.setTitle("Continue", for: .normal)
+        if isCapturing {
+            self.captureButton.setTitle("Start", for: .normal)
             self.isRunning = false
+            self.isCapturing = false
             skipFrames()
+            markFacePoints()
             pushToViewer()
-        } else {
+        }
+        else{
             self.isRunning = true
             self.captureButton.setTitle("Stop", for: .normal)
-
+            self.imagesCollection = []
+            self.isCapturing = true
         }
     }
 
@@ -88,21 +93,10 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
 
-        var pxMmRatio = CGFloat.nan
         var squareImage: UIImage!
-
-       /* self.faceShapeImageView.isHidden = true
-        UIGraphicsBeginImageContextWithOptions(self.faceShapeImageView.frame.size, false, UIScreen.main.scale)
-        self.view.drawHierarchy(in: CGRect.init(x: -self.faceShapeImageView.frame.origin.x, y: -self.faceShapeImageView.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.height ), afterScreenUpdates: true)
-        let CreditCardCroppedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        self.faceShapeImageView.isHidden = false
-         */
- 
  
         faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage, success) in
             squareImage = resultImage
-//            // Only call it if detected the card
             if (pixelMmRatio != 1 && success){
                 faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
                     if success {
@@ -137,6 +131,18 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         self.isRunning = true
     }
 
+    func markFacePoints(){
+        let faceDetector = FaceDetector()
+        var markedImagesCollection = [UIImage]()
+
+        for image in self.imagesCollection{
+            faceDetector.highlightFacePoints(for: image) { (newresultImage) in
+                markedImagesCollection.append(newresultImage)
+            }
+        }
+        self.imagesCollection = markedImagesCollection
+    }
+    
     func skipFrames(){
         var imagesCollection = [UIImage]()
         let imageCount = self.imagesCollection.count
