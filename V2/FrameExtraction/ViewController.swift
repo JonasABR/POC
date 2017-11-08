@@ -85,10 +85,10 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     @IBAction func calculatePD(_ sender: Any) {
         self.isRunning = false
         let faceDetector = FaceDetector()
-        guard let uiImage = self.imagesCollection.last else { return }
+        guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
 
-        var cardSize = CGFloat.nan
+        var pxMmRatio = CGFloat.nan
         var squareImage: UIImage!
 
        /* self.faceShapeImageView.isHidden = true
@@ -97,17 +97,16 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let CreditCardCroppedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         self.faceShapeImageView.isHidden = false
- */
+         */
  
  
-        faceDetector.detectCardSize(for: uiImage) { (cardSizeDetected, resultImage) in
-            cardSize = cardSizeDetected
+        faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage) in
             squareImage = resultImage
-            // Only call it if detected the card
-            if (cardSize != 1){
-                faceDetector.highlightFaces(for: squareImage, cardSize: cardSize) { [unowned self](resultImage, success, pdDistance) in
+//            // Only call it if detected the card
+            if (pixelMmRatio != 1){
+                faceDetector.highlightFaces(for: originalImage, pixelMmRatio: pixelMmRatio) { [unowned self](resultImage, success, pdDistance) in
                     if success {
-                        print("Cards AND face!!")
+                        print("Cards AND face!")
                         if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: resultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
                             self.imagesCollection.append(newImage)

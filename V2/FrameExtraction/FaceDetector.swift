@@ -42,8 +42,8 @@ class FaceDetector {
     }
 
 
-    open func highlightFaces(for source: UIImage, cardSize: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
-        var resultImage = source
+    open func highlightFaces(for source: UIImage, pixelMmRatio: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
+        
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
                 if let results = request.results as? [VNFaceObservation] {
@@ -99,13 +99,12 @@ class FaceDetector {
                          landmarkRegions.append(rightPupil)
                          }*/
                         
-                        let pixelMmRatio : CGFloat
-                        pixelMmRatio = 85.6 / cardSize
-                        let tupleResult = self.drawOnImage(source: resultImage,
+                        print("pixelMmRatio: \(pixelMmRatio)")
+                        let tupleResult = self.drawOnImage(source: source,
                                                   boundingRect: boundingRect,
                                                   faceLandmarkRegions: landmarkRegions,
-                                                  leftPupil: self.getPupilCenter(pupilPoint: landmarks.leftEye!),
-                                                  rightPupil: self.getPupilCenter(pupilPoint: landmarks.rightEye!),
+                                                  leftPupil: self.getPupilCenter(pupilPoint : landmarks.leftPupil!),
+                                                  rightPupil: self.getPupilCenter(pupilPoint : landmarks.rightPupil!),
                                                   ratio: pixelMmRatio)
                         complete(tupleResult.0, tupleResult.1, tupleResult.2)
 
@@ -114,7 +113,7 @@ class FaceDetector {
             } else {
                 print(error!.localizedDescription)
             }
-            complete(resultImage, false, "")
+            complete(source, false, "")
         }
     
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
@@ -122,24 +121,45 @@ class FaceDetector {
     }
     
     open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat, UIImage?) -> Void) {
+        var imageToDetect: UIImage!
+        let context = CIContext();
+        
+        let ciImage = CIImage.init(cgImage: source.cgImage!)
+        if let brightnessFilter = CIFilter(name: "CIColorControls") {
+            brightnessFilter.setValue(ciImage, forKey: kCIInputImageKey)
+            brightnessFilter.setValue(1.3, forKey: kCIInputContrastKey)
+            if let outputImage = brightnessFilter.outputImage {
+                let imageRef = context.createCGImage(outputImage, from: outputImage.extent)
+                imageToDetect = UIImage.init(cgImage: imageRef!)
+            }
+        }
+        
         var cardWidth : CGFloat  = 1
+        var cardHeight : CGFloat  = 1
+        
         let detectCreditCardRequest = VNDetectRectanglesRequest { (request, error) in
-            var resultImage:UIImage? = source
+            var resultImage:UIImage? = imageToDetect
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
                         resultImage = self.drawCardBounds(source: resultImage, topLeft: rectangles.topLeft, bottomLeft: rectangles.bottomLeft, topRight: rectangles.topRight, bottomRight: rectangles.bottomRight)
-                        cardWidth = source.size.width * rectangles.boundingBox.size.width
+                        cardWidth =  ((resultImage!.size.width * self.distance(from: rectangles.topLeft, to: rectangles.topRight) + resultImage!.size.width * self.distance(from: rectangles.bottomLeft, to: rectangles.bottomRight) ) / 2)
+                        cardHeight = ((resultImage!.size.height * self.distance(from: rectangles.topLeft, to: rectangles.bottomLeft) + resultImage!.size.height * self.distance(from: rectangles.topRight, to: rectangles.bottomRight) ) / 2 )
                     }
                 }
             }
-            complete(cardWidth, resultImage)
+            let ratio = ((85.6 / cardWidth) + (53.98 / cardHeight)) / 2
+            print("Card width: \(cardWidth). Height: \(cardHeight)")
+            print("PixelMMRatio width: \(85.6 / cardWidth). Height: \(53.98 / cardHeight). Final ratio: \(ratio) ")
+
+            complete(ratio, resultImage)
         }
         detectCreditCardRequest.maximumObservations = 0
         detectCreditCardRequest.minimumAspectRatio = 0.6
         detectCreditCardRequest.maximumAspectRatio = 0.7
-       // detectCreditCardRequest.
-        let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
+        //detectCreditCardRequest.minimumSize = 0.1
+        //detectCreditCardRequest.quadratureTolerance = 10
+        let vnImage = VNImageRequestHandler(cgImage: imageToDetect.cgImage!, options: [:])
         try? vnImage.perform([detectCreditCardRequest])
     }
 
@@ -203,7 +223,6 @@ class FaceDetector {
         fillColor.setStroke()
         context.setLineWidth(2.0)
 
-        
         for faceLandmarkRegion in faceLandmarkRegions {
             var points: [CGPoint] = []
             for i in 0..<faceLandmarkRegion.pointCount {
