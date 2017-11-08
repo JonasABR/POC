@@ -98,7 +98,7 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
       /*
          For the Pupil Distance use case, we don't need to check (or draw) anything on real time, hence, commenting this out for now
          var squareImage: UIImage?
-        faceDetector.detectCardSize(for: uiImage) { (cardSize, _resultImage) in
+        faceDetector.detectCardSize(for: uiImage) { (cardSize, _resultImage, success) in
             squareImage = _resultImage
             self.cardSize = cardSize
         }

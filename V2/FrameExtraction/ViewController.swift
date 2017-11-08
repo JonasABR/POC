@@ -100,10 +100,10 @@ class ViewController: UIViewController, FrameExtractorDelegate {
          */
  
  
-        faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage) in
+        faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage, success) in
             squareImage = resultImage
 //            // Only call it if detected the card
-            if (pixelMmRatio != 1){
+            if (pixelMmRatio != 1 && success){
                 faceDetector.highlightFaces(for: originalImage, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
                     if success {
                         print("Cards AND face!")
@@ -124,8 +124,8 @@ class ViewController: UIViewController, FrameExtractorDelegate {
             else{
                 print("No card!")
                 self.imagesCollection = []
-                self.imagesCollection.append(squareImage)
-                self.pushToViewer()
+                //self.imagesCollection.append(squareImage)
+                //self.pushToViewer()
             }
         }
         self.isRunning = true

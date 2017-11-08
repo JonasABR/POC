@@ -121,7 +121,7 @@ class FaceDetector {
         try? vnImage.perform([detectFaceRequest])
     }
     
-    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat, UIImage?) -> Void) {
+    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat, UIImage?, Bool) -> Void) {
         var imageToDetect: UIImage!
         let context = CIContext();
         
@@ -153,7 +153,7 @@ class FaceDetector {
             print("Card width: \(cardWidth). Height: \(cardHeight)")
             print("PixelMMRatio width: \(85.6 / cardWidth). Height: \(53.98 / cardHeight). Final ratio: \(ratio) ")
 
-            complete(ratio, resultImage)
+            complete(ratio, resultImage, (cardWidth != 1 && cardHeight != 1))
         }
         detectCreditCardRequest.maximumObservations = 0
         detectCreditCardRequest.minimumAspectRatio = 0.6
