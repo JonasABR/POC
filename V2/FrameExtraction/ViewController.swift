@@ -122,10 +122,16 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                  }
             }
             else{
-                print("No card!")
-                self.imagesCollection = []
-                //self.imagesCollection.append(squareImage)
-                //self.pushToViewer()
+                faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
+                    if success {
+                        print("No card, showing the pupils tho")
+                        if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: newresultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
+                            self.imagesCollection = []
+                            self.imagesCollection.append(newImage)
+                            self.pushToViewer()
+                        }
+                    }
+                }
             }
         }
         self.isRunning = true
