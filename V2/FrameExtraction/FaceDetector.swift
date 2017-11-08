@@ -128,7 +128,7 @@ class FaceDetector {
         let ciImage = CIImage.init(cgImage: source.cgImage!)
         if let brightnessFilter = CIFilter(name: "CIColorControls") {
             brightnessFilter.setValue(ciImage, forKey: kCIInputImageKey)
-            brightnessFilter.setValue(1.8, forKey: kCIInputContrastKey)
+            brightnessFilter.setValue(1.3, forKey: kCIInputContrastKey)
             if let outputImage = brightnessFilter.outputImage {
                 let imageRef = context.createCGImage(outputImage, from: outputImage.extent)
                 imageToDetect = UIImage.init(cgImage: imageRef!)
