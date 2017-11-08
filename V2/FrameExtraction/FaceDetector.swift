@@ -139,7 +139,7 @@ class FaceDetector {
         var cardHeight : CGFloat  = 1
         
         let detectCreditCardRequest = VNDetectRectanglesRequest { (request, error) in
-            var resultImage:UIImage? = imageToDetect
+            var resultImage:UIImage? = source
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
