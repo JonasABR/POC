@@ -182,7 +182,7 @@ class FaceDetector {
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
-                        drawPoints = [rectangles.topLeft, rectangles.bottomLeft, rectangles.topRight, rectangles.bottomRight]
+                        drawPoints = [rectangles.topLeft, rectangles.bottomLeft, rectangles.bottomRight,rectangles.topRight, rectangles.topLeft]
                         cardWidth =  ((source.size.width * rectangles.topLeft.distance(to: rectangles.topRight) + source.size.width * rectangles.bottomLeft.distance(to: rectangles.bottomRight) ) / 2)
                         cardHeight = ((source.size.height * rectangles.topLeft.distance(to: rectangles.bottomLeft) + source.size.height * rectangles.topRight.distance(to: rectangles.bottomRight) ) / 2 )
                     }
