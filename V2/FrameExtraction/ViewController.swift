@@ -92,11 +92,8 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let faceDetector = FaceDetector()
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
-
-        var squareImage: UIImage!
  
         faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage, success) in
-            squareImage = resultImage
             if (pixelMmRatio != 1 && success){
                 faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
                     if success {
