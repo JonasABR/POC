@@ -122,7 +122,6 @@
                         <outlet property="PDLabel" destination="LnR-ek-ajF" id="cPX-uH-SqY"/>
                         <outlet property="captureButton" destination="3sP-e1-UgL" id="qnH-36-bdC"/>
                         <outlet property="faceShapeImageView" destination="gnV-O5-cdI" id="xzC-kg-HOA"/>
-                        <outlet property="frameFront" destination="LuM-BE-Ps3" id="bFa-W0-Z71"/>
                         <outlet property="imageView" destination="LKL-Lr-zk7" id="T9v-14-b75"/>
                         <outlet property="instructions" destination="5Z8-zk-HQl" id="DVo-OR-pfb"/>
                     </connections>
@@ -151,8 +150,8 @@
                                     <outletCollection property="gestureRecognizers" destination="au0-Zq-Jo2" appends="YES" id="uV2-ju-PJW"/>
                                 </connections>
                             </imageView>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frameFront" translatesAutoresizingMaskIntoConstraints="NO" id="LuM-BE-Ps3">
-                                <rect key="frame" x="67" y="249" width="240" height="128"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frameFront" translatesAutoresizingMaskIntoConstraints="NO" id="LuM-BE-Ps3">
+                                <rect key="frame" x="106" y="295" width="167" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -165,6 +164,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="frameFront" destination="LuM-BE-Ps3" id="CmB-oJ-wbZ"/>
                         <outlet property="imageView" destination="XPD-NF-ouC" id="2yx-ea-Gmh"/>
                     </connections>
                 </viewController>
@@ -180,7 +180,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="193" y="137"/>
+            <point key="canvasLocation" x="192.80000000000001" y="136.28185907046478"/>
         </scene>
     </scenes>
     <resources>
