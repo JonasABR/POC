@@ -14,6 +14,7 @@ class ImageSliderViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var frameFront: UIImageView!
     var imagesArray: [UIImage]?
+    var drawer = DrawObjects()
     private var startLocation: CGPoint = CGPoint.zero
     var pixelsPerImage:CGFloat {
         guard let imagesArray = self.imagesArray else {
@@ -38,7 +39,11 @@ class ImageSliderViewController: UIViewController {
     
     func markFacePoints(image : UIImage){
         let faceDetector = FaceDetector()
-        faceDetector.highlightFacePoints(for: image) { (newresultImage, face : VNFaceObservation) in
+        faceDetector.highlightFacePoints(for: image) {[unowned self] (boundsRect, landmarkRegions, face : VNFaceObservation) in
+            let resultImage = self.drawer.drawFacePoints(source: image,
+                                                       boundingRect: boundsRect,
+                                                       faceLandmarkRegions: landmarkRegions)
+
             let landmarks = face.landmarks
             let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
             let glassImagePupilDistance = 96
@@ -53,7 +58,7 @@ class ImageSliderViewController: UIViewController {
             // var scaleFator = 1 + ((pupilDistance - 140) / 100)
            // print ("ScaleFactor \(scaleFator)")
           //  self.scaleFrame(scaleFactor : scaleFator )
-            self.imageView.image = newresultImage
+            self.imageView.image = resultImage
         }
     }
     

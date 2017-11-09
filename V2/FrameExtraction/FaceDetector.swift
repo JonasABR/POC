@@ -10,9 +10,6 @@ import Vision
 
 class FaceDetector {
     var draw = DrawObjects()
-    
-    
-    
     func getPupilCenter(pupilPoint eye: VNFaceLandmarkRegion2D) -> CGPoint {
         let leftEyePoints = eye.normalizedPoints
         var minimumXLeft : CGFloat = 1000
@@ -41,8 +38,8 @@ class FaceDetector {
     }
 
     
-    open func highlightFacePoints(for source: UIImage, complete: @escaping (UIImage, VNFaceObservation) -> Void) {
-        let detectFaceRequest = VNDetectFaceLandmarksRequest { [unowned self] (request, error) in
+    open func highlightFacePoints(for source: UIImage, complete: @escaping (_ boundsRect: CGRect, _ landmarkRegions: [VNFaceLandmarkRegion2D], VNFaceObservation) -> Void) {
+        let detectFaceRequest = VNDetectFaceLandmarksRequest {(request, error) in
             if error == nil {
                 if let results = request.results as? [VNFaceObservation] {
                     
@@ -81,13 +78,7 @@ class FaceDetector {
                          if let rightEyebrow = landmarks.rightEyebrow {
                             landmarkRegions.append(rightEyebrow)
                          }
-                        
-                        let resultImage = self.draw.drawFacePoints(source: source,
-                                                           boundingRect: boundingRect,
-                                                           faceLandmarkRegions: landmarkRegions)
-                        complete(resultImage, faceObservation)
-                        return
-                        
+                        complete(boundingRect, landmarkRegions, faceObservation)                        
                     }
                 }
             } else {
@@ -101,8 +92,7 @@ class FaceDetector {
 
     
 
-    open func detectFaces(for source: UIImage, pixelMmRatio: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
-        
+    open func detectFaces(for source: UIImage, complete: @escaping (_ success: Bool, _ boundRect: CGRect, _ leftPupil: CGPoint, _ rightPupil: CGPoint, _ landmarkRegions: [VNFaceLandmarkRegion2D]) -> Void) {
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
                 if let results = request.results as? [VNFaceObservation] {
@@ -157,23 +147,14 @@ class FaceDetector {
                          if let rightPupil = landmarks.rightPupil {
                          landmarkRegions.append(rightPupil)
                          }*/
-                        
-                        print("pixelMmRatio: \(pixelMmRatio)")
-                        let tupleResult = self.draw.drawOnImage(source: source,
-                                                  boundingRect: boundingRect,
-                                                  faceLandmarkRegions: landmarkRegions,
-                                                  leftPupil: self.getPupilCenter(pupilPoint : landmarks.leftPupil!),
-                                                  rightPupil: self.getPupilCenter(pupilPoint : landmarks.rightPupil!),
-                                                  ratio: pixelMmRatio)
-                        complete(tupleResult.0, tupleResult.1, tupleResult.2)
+                        complete(true, boundingRect, self.getPupilCenter(pupilPoint : landmarks.leftPupil!), self.getPupilCenter(pupilPoint : landmarks.rightPupil!), landmarkRegions)
                         return
-
                     }
                 }
             } else {
                 print(error!.localizedDescription)
+                complete(false, CGRect.zero, CGPoint.zero, CGPoint.zero, [VNFaceLandmarkRegion2D]())
             }
-            complete(source, false, "")
         }
     
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])

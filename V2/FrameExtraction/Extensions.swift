@@ -18,7 +18,7 @@ extension String {
         self.draw(in: CGRect(origin: .zero, size: rect.size), withAttributes: attributes)
     }
     
-    func textToImage(drawText: String, inImage: UIImage, atPoint: CGPoint) -> UIImage? {
+    func textToImage(inImage: UIImage, atPoint: CGPoint) -> UIImage? {
         
         // Setup the font specific variables
         let textColor = UIColor.black
@@ -41,7 +41,7 @@ extension String {
         let rect = CGRect.init(x: atPoint.x, y: atPoint.y, width: inImage.size.width, height: inImage.size.height)
         
         // Draw the text into an image
-        drawText.draw(in: rect, withAttributes: textFontAttributes)
+        self.draw(in: rect, withAttributes: textFontAttributes)
         
         // Create a new image out of the images we have created
         let newImage = UIGraphicsGetImageFromCurrentImageContext()

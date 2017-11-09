@@ -16,7 +16,6 @@ class DrawObjects: NSObject {
     }
     
     func drawCardBounds(source:UIImage?, bounds: [CGPoint]) -> UIImage? {
-        
         guard let image = source else {
             return nil
         }
@@ -45,7 +44,7 @@ class DrawObjects: NSObject {
                                  faceLandmarkRegions: [VNFaceLandmarkRegion2D],
                                  leftPupil: CGPoint,
                                  rightPupil: CGPoint,
-                                 ratio: CGFloat) -> (UIImage, Bool, String) {
+                                 ratio: CGFloat) -> (UIImage, String) {
         UIGraphicsBeginImageContextWithOptions(source.size, false, 1)
         let context = UIGraphicsGetCurrentContext()!
         context.translateBy(x: 0, y: source.size.height)
@@ -109,7 +108,7 @@ class DrawObjects: NSObject {
         
         let coloredImg : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        return (coloredImg, true, pupilDistanceString)
+        return (coloredImg, pupilDistanceString)
     }
     
     func drawFacePoints(source: UIImage,
