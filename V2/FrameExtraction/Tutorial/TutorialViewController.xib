@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -53,10 +52,6 @@
                         <constraint firstAttribute="trailing" secondItem="lzm-ob-dkR" secondAttribute="trailing" constant="20" id="dgX-Zi-go7"/>
                         <constraint firstItem="lzm-ob-dkR" firstAttribute="centerY" secondItem="LxB-Lx-Z8l" secondAttribute="centerY" id="wBG-sx-dL6"/>
                     </constraints>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="QTu-mL-m3x" appends="YES" id="Upd-jF-lNI"/>
-                        <outletCollection property="gestureRecognizers" destination="xdo-ah-vuy" appends="YES" id="hg8-xh-bvG"/>
-                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -68,15 +63,5 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
         </view>
-        <swipeGestureRecognizer direction="left" id="QTu-mL-m3x">
-            <connections>
-                <action selector="leftGesture:" destination="-1" id="3Is-Uz-bBP"/>
-            </connections>
-        </swipeGestureRecognizer>
-        <swipeGestureRecognizer direction="right" id="xdo-ah-vuy">
-            <connections>
-                <action selector="righGesture:" destination="-1" id="8gM-dS-hbn"/>
-            </connections>
-        </swipeGestureRecognizer>
     </objects>
 </document>
