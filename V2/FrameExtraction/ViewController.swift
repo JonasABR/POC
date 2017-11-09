@@ -22,6 +22,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     @IBOutlet var PDLabel: UILabel!
     var coreMotion = CMMotionManager()
 
+    var drawer = DrawObjects()
     @IBOutlet weak var imageView: UIImageView!
 
     override func viewDidLoad() {
@@ -90,16 +91,22 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         let faceDetector = FaceDetector()
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
-
-        var squareImage: UIImage!
  
-        faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage, success) in
-            squareImage = resultImage
+        
+        faceDetector.detectCardSize(for: originalImage) { [unowned self] (pixelMmRatio, cardPoints, success) in
+            let resultImage = self.drawer.drawCardBounds(source: originalImage, bounds: cardPoints) ?? originalImage
             if (pixelMmRatio != 1 && success){
-                faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
+                faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
                     if success {
+                        let tupleResult = self.drawer.drawOnImage(source: resultImage,
+                                                                  boundingRect: boundRect,
+                                                                  faceLandmarkRegions: landmarkRegions,
+                                                                  leftPupil: leftPupil,
+                                                                  rightPupil: rightPupil,
+                                                                  ratio: pixelMmRatio)
+
                         print("Cards AND face!")
-                        if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: newresultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
+                        if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
                             self.imagesCollection.append(newImage)
                             self.pushToViewer()
@@ -108,16 +115,23 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                     else{
                         print("Card, but no faces")
                         self.imagesCollection = []
-                        self.imagesCollection.append(newresultImage)
+                        self.imagesCollection.append(resultImage)
                         self.pushToViewer()
                     }
                  }
-            }
-            else{
-                faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
+            } else{
+                faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
                     if success {
+                        let tupleResult = self.drawer.drawOnImage(source: resultImage,
+                                                                  boundingRect: boundRect,
+                                                                  faceLandmarkRegions: landmarkRegions,
+                                                                  leftPupil: leftPupil,
+                                                                  rightPupil: rightPupil,
+                                                                  ratio: pixelMmRatio)
+
+
                         print("No card, showing the pupils tho")
-                        if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: newresultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
+                        if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
                             self.imagesCollection.append(newImage)
                             self.pushToViewer()
