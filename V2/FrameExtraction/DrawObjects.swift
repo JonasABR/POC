@@ -10,11 +10,6 @@ import UIKit
 import Vision
 
 class DrawObjects: NSObject {
-    
-    func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
-        return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
-    }
-    
     func drawCardBounds(source:UIImage?, bounds: [CGPoint]) -> UIImage? {
         guard let image = source else {
             return nil
@@ -95,7 +90,7 @@ class DrawObjects: NSObject {
         context.drawPath(using: CGPathDrawingMode.stroke)
         
         var pupilDistanceString = ""
-        let pupilDistance = self.distance(from: leftPupilPoint, to: rightPupilPoint) * ratio
+        let pupilDistance = leftPupilPoint.distance(to: rightPupilPoint) * ratio
         // Range for pupil distance
         if (pupilDistance > 40 && pupilDistance < 81){
             pupilDistanceString = "\(pupilDistance.rounded()) mm"

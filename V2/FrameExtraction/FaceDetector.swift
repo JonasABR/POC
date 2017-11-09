@@ -178,13 +178,13 @@ class FaceDetector {
         var cardWidth : CGFloat  = 1
         var cardHeight : CGFloat  = 1
         var drawPoints = [CGPoint]()
-        let detectCreditCardRequest = VNDetectRectanglesRequest { [unowned self] (request, error) in
+        let detectCreditCardRequest = VNDetectRectanglesRequest { (request, error) in
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
                         drawPoints = [rectangles.topLeft, rectangles.bottomLeft, rectangles.topRight, rectangles.bottomRight]
-                        cardWidth =  ((source.size.width * self.draw.distance(from: rectangles.topLeft, to: rectangles.topRight) + source.size.width * self.draw.distance(from: rectangles.bottomLeft, to: rectangles.bottomRight) ) / 2)
-                        cardHeight = ((source.size.height * self.draw.distance(from: rectangles.topLeft, to: rectangles.bottomLeft) + source.size.height * self.draw.distance(from: rectangles.topRight, to: rectangles.bottomRight) ) / 2 )
+                        cardWidth =  ((source.size.width * rectangles.topLeft.distance(to: rectangles.topRight) + source.size.width * rectangles.bottomLeft.distance(to: rectangles.bottomRight) ) / 2)
+                        cardHeight = ((source.size.height * rectangles.topLeft.distance(to: rectangles.bottomLeft) + source.size.height * rectangles.topRight.distance(to: rectangles.bottomRight) ) / 2 )
                     }
                 }
             }

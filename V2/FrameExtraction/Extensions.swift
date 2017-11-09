@@ -53,6 +53,13 @@ extension String {
         return newImage ?? nil
         
     }
-    
-    
+}
+
+extension CGPoint {
+    func distance(to rhs: CGPoint) -> CGFloat {
+        return hypot(self.x.distance(to: rhs.x), self.y.distance(to: rhs.y))
+    }
+
+
+
 }
