@@ -42,7 +42,6 @@ class FaceDetector {
 
     
     open func highlightFacePoints(for source: UIImage, complete: @escaping (UIImage, VNFaceObservation) -> Void) {
-        
         let detectFaceRequest = VNDetectFaceLandmarksRequest { [unowned self] (request, error) in
             if error == nil {
                 if let results = request.results as? [VNFaceObservation] {
@@ -102,7 +101,7 @@ class FaceDetector {
 
     
 
-    open func highlightFaces(for source: UIImage, pixelMmRatio: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
+    open func detectFaces(for source: UIImage, pixelMmRatio: CGFloat, complete: @escaping (UIImage, Bool, String) -> Void) {
         
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
@@ -181,7 +180,7 @@ class FaceDetector {
         try? vnImage.perform([detectFaceRequest])
     }
     
-    open func detectCardSize(for source: UIImage, complete: @escaping (CGFloat, UIImage?, Bool) -> Void) {
+    open func detectCardSize(for source: UIImage, complete: @escaping (_ pixelMmRatio: CGFloat, _ cardPoints: [CGPoint], _ success: Bool) -> Void) {
         var imageToDetect: UIImage!
         let context = CIContext();
         
@@ -197,16 +196,14 @@ class FaceDetector {
         
         var cardWidth : CGFloat  = 1
         var cardHeight : CGFloat  = 1
-        
-        let detectCreditCardRequest = VNDetectRectanglesRequest { [unowned self](request, error) in
-            var resultImage:UIImage? = source
+        var drawPoints = [CGPoint]()
+        let detectCreditCardRequest = VNDetectRectanglesRequest { [unowned self] (request, error) in
             if error == nil {
                 if let results = request.results as? [VNRectangleObservation] {
                     for rectangles in results {
-                        resultImage = self.draw.drawCardBounds(source: resultImage, bounds: [rectangles.topLeft, rectangles.bottomLeft, rectangles.topRight, rectangles.bottomRight])
-                        
-                        cardWidth =  ((resultImage!.size.width * self.draw.distance(from: rectangles.topLeft, to: rectangles.topRight) + resultImage!.size.width * self.draw.distance(from: rectangles.bottomLeft, to: rectangles.bottomRight) ) / 2)
-                        cardHeight = ((resultImage!.size.height * self.draw.distance(from: rectangles.topLeft, to: rectangles.bottomLeft) + resultImage!.size.height * self.draw.distance(from: rectangles.topRight, to: rectangles.bottomRight) ) / 2 )
+                        drawPoints = [rectangles.topLeft, rectangles.bottomLeft, rectangles.topRight, rectangles.bottomRight]
+                        cardWidth =  ((source.size.width * self.draw.distance(from: rectangles.topLeft, to: rectangles.topRight) + source.size.width * self.draw.distance(from: rectangles.bottomLeft, to: rectangles.bottomRight) ) / 2)
+                        cardHeight = ((source.size.height * self.draw.distance(from: rectangles.topLeft, to: rectangles.bottomLeft) + source.size.height * self.draw.distance(from: rectangles.topRight, to: rectangles.bottomRight) ) / 2 )
                     }
                 }
             }
@@ -214,7 +211,7 @@ class FaceDetector {
             print("Card width: \(cardWidth). Height: \(cardHeight)")
             print("PixelMMRatio width: \(85.6 / cardWidth). Height: \(53.98 / cardHeight). Final ratio: \(ratio) ")
 
-            complete(ratio, resultImage, (cardWidth != 1 && cardHeight != 1))
+            complete(ratio, drawPoints, (cardWidth != 1 && cardHeight != 1))
         }
         detectCreditCardRequest.maximumObservations = 0
         detectCreditCardRequest.minimumAspectRatio = 0.6

@@ -22,6 +22,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     @IBOutlet var PDLabel: UILabel!
     var coreMotion = CMMotionManager()
 
+    var drawer = DrawObjects()
     @IBOutlet weak var imageView: UIImageView!
 
     override func viewDidLoad() {
@@ -91,9 +92,12 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
  
-        faceDetector.detectCardSize(for: originalImage) { (pixelMmRatio, resultImage, success) in
+        
+        faceDetector.detectCardSize(for: originalImage) { [unowned self] (pixelMmRatio, cardPoints, success) in
             if (pixelMmRatio != 1 && success){
-                faceDetector.highlightFaces(for: resultImage!, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
+                let resultImage = self.drawer.drawCardBounds(source: originalImage, bounds: cardPoints)
+                
+                faceDetector.detectFaces(for: resultImage, pixelMmRatio: pixelMmRatio) { [unowned self](newresultImage, success, pdDistance) in
                     if success {
                         print("Cards AND face!")
                         if let newImage = pdDistance.textToImage(drawText: pdDistance, inImage: newresultImage, atPoint: CGPoint.init(x: 20, y: 20)) {
