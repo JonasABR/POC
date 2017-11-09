@@ -15,30 +15,23 @@ class DrawObjects: NSObject {
         return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
     }
     
-    func drawCardBounds(source:UIImage?, topLeft:CGPoint, bottomLeft:CGPoint, topRight:CGPoint, bottomRight:CGPoint) -> UIImage? {
+    func drawCardBounds(source:UIImage?, bounds: [CGPoint]) -> UIImage? {
         
         guard let image = source else {
             return nil
         }
         
-        let convertedTopLeft = CGPoint(x: topLeft.x * image.size.width, y: image.size.height - (topLeft.y * image.size.height))
-        let convertedTopRight = CGPoint(x: topRight.x * image.size.width, y: image.size.height - (topRight.y * image.size.height))
-        let convertedBottomLeft = CGPoint(x: bottomLeft.x * image.size.width, y: image.size.height - (bottomLeft.y * image.size.height))
-        let convertedBottomRight = CGPoint(x: bottomRight.x * image.size.width, y: image.size.height - (bottomRight.y * image.size.height))
+        var points: [CGPoint] = []
+        for item in bounds {
+            let point = CGPoint(x: item.x * image.size.width, y: image.size.height - (item.y * image.size.height))
+            points.append(point)
+        }
         
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: .zero)
         let context = UIGraphicsGetCurrentContext()!
         context.setLineWidth(3.0)
         context.setStrokeColor(UIColor.green.cgColor)
-        
-        var points: [CGPoint] = []
-        points.append(convertedTopLeft)
-        points.append(convertedTopRight)
-        points.append(convertedBottomRight)
-        points.append(convertedBottomLeft)
-        points.append(convertedTopLeft)
-        
         context.addLines(between: points)
         context.drawPath(using: CGPathDrawingMode.stroke)
         
@@ -81,6 +74,7 @@ class DrawObjects: NSObject {
                 points.removeAll()
                 let point = faceLandmarkRegion.normalizedPoints[i]
                 let centerPoint = CGPoint(x: CGFloat(boundingRect.origin.x * source.size.width + point.x * rectWidth), y: CGFloat(boundingRect.origin.y * source.size.height + point.y * rectHeight))
+                
                 points.append(CGPoint(x: CGFloat(centerPoint.x - 1), y: CGFloat(centerPoint.y)))
                 points.append(CGPoint(x: CGFloat(centerPoint.x + 1), y: CGFloat(centerPoint.y)))
                 points.append(CGPoint(x: CGFloat(centerPoint.x), y: CGFloat(centerPoint.y - 1)))
