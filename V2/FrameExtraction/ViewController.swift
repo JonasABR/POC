@@ -13,7 +13,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     @IBOutlet weak var instructions: UILabel!
     
-    @IBOutlet weak var frameFront: UIImageView!
     @IBOutlet weak var faceShapeImageView: UIImageView!
     var frameExtractor: FrameExtractor!
     var imagesCollection = [UIImage]()
@@ -76,7 +75,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
             self.isRunning = false
             self.isCapturing = false
             skipFrames()
-            markFacePoints()
             pushToViewer()
         }
         else{
@@ -129,18 +127,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
             }
         }
         self.isRunning = true
-    }
-
-    func markFacePoints(){
-        let faceDetector = FaceDetector()
-        var markedImagesCollection = [UIImage]()
-
-        for image in self.imagesCollection{
-            faceDetector.highlightFacePoints(for: image) { (newresultImage) in
-                markedImagesCollection.append(newresultImage)
-            }
-        }
-        self.imagesCollection = markedImagesCollection
     }
     
     func skipFrames(){

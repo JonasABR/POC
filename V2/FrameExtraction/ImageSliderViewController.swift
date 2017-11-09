@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Vision
 
 class ImageSliderViewController: UIViewController {
   
     private var currentIndex:Int = 0
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var frameFront: UIImageView!
     var imagesArray: [UIImage]?
     private var startLocation: CGPoint = CGPoint.zero
     var pixelsPerImage:CGFloat {
@@ -20,6 +22,10 @@ class ImageSliderViewController: UIViewController {
         return self.imageView.frame.width / CGFloat(imagesArray.count)
     }
 
+    func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
+        return hypot(lhs.x.distance(to: rhs.x), lhs.y.distance(to: rhs.y))
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.isUserInteractionEnabled = true;
@@ -27,7 +33,49 @@ class ImageSliderViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didReceivePanGesture(panGesture:)))
         self.imageView.addGestureRecognizer(panGestureRecognizer)
+        self.markFacePoints(image: (imagesArray?.first)!)
     }
+    
+    func markFacePoints(image : UIImage){
+        let faceDetector = FaceDetector()
+        faceDetector.highlightFacePoints(for: image) { (newresultImage, face : VNFaceObservation) in
+            let landmarks = face.landmarks
+            let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
+            let glassImagePupilDistance = 96
+           
+            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
+            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
+   
+            var positionX = leftX + 100
+            var framePositionY = leftY - 25
+            
+            self.positionFrame(point: CGPoint(x: positionX, y: framePositionY))
+            // var scaleFator = 1 + ((pupilDistance - 140) / 100)
+           // print ("ScaleFactor \(scaleFator)")
+          //  self.scaleFrame(scaleFactor : scaleFator )
+            self.imageView.image = newresultImage
+        }
+    }
+    
+    func positionFrame(point : CGPoint){
+        let layer = self.frameFront.layer
+        layer.position = point
+    }
+    func scaleFrame(scaleFactor: CGFloat){
+        let layer = self.frameFront.layer
+        layer.transform = CATransform3DMakeScale(scaleFactor, scaleFactor, 1)
+        layer.zPosition = 1000
+    }
+    
+    func roteteFrame(angle:Double) {
+        let layer = self.frameFront.layer
+        var rotationAndPerspectiveTransform = CATransform3DIdentity
+        rotationAndPerspectiveTransform.m34 = 1.0 / -200
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * -Double.pi / 180.0), 0.0, 1.0, 0.0)
+        layer.transform = rotationAndPerspectiveTransform
+        layer.zPosition = 1000
+    }
+
 
     func didReceivePanGesture(panGesture:UIPanGestureRecognizer) {
         if let imagesArray = self.imagesArray {
@@ -47,7 +95,7 @@ class ImageSliderViewController: UIViewController {
                     newIndex = imagesArray.count - 1
                 }
 
-                self.imageView.image = imagesArray[newIndex]
+                markFacePoints(image: imagesArray[newIndex])
                 if panGesture.state == .ended {
                     self.currentIndex = newIndex
                 }

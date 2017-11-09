@@ -42,7 +42,7 @@ class FaceDetector {
     }
 
     
-    open func highlightFacePoints(for source: UIImage, complete: @escaping (UIImage) -> Void) {
+    open func highlightFacePoints(for source: UIImage, complete: @escaping (UIImage, VNFaceObservation) -> Void) {
         
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             if error == nil {
@@ -59,14 +59,14 @@ class FaceDetector {
                          if let faceContour = landmarks.faceContour {
                             landmarkRegions.append(faceContour)
                          }
-                         
+                        
                          if let leftEye = landmarks.leftEye {
                             landmarkRegions.append(leftEye)
                          }
                          if let rightEye = landmarks.rightEye {
                             landmarkRegions.append(rightEye)
                          }
-                         
+                        
                          if let nose = landmarks.nose {
                             landmarkRegions.append(nose)
                          }
@@ -87,7 +87,7 @@ class FaceDetector {
                         let resultImage = self.drawFacePoints(source: source,
                                                            boundingRect: boundingRect,
                                                            faceLandmarkRegions: landmarkRegions)
-                        complete(resultImage)
+                        complete(resultImage, faceObservation)
                         return
                         
                     }
@@ -95,7 +95,6 @@ class FaceDetector {
             } else {
                 print(error!.localizedDescription)
             }
-            complete(source)
         }
         
         let vnImage = VNImageRequestHandler(cgImage: source.cgImage!, options: [:])
