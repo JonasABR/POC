@@ -1,4 +1,4 @@
-//
+ //
 //  ImageSliderViewController.swift
 //  FrameExtraction
 //
@@ -47,24 +47,38 @@ class ImageSliderViewController: UIViewController {
             let landmarks = face.landmarks
             let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
             let glassImagePupilDistance = 96
-           
-            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
-            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
-   
-            var positionX = leftX + 100
-            var framePositionY = leftY - 25
-            
-            self.positionFrame(point: CGPoint(x: positionX, y: framePositionY))
-            // var scaleFator = 1 + ((pupilDistance - 140) / 100)
-           // print ("ScaleFactor \(scaleFator)")
-          //  self.scaleFrame(scaleFactor : scaleFator )
+
+
+
+//            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
+//            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
+//
+//            let rightX = (landmarks!.rightEye!.normalizedPoints.first?.x)! * image.size.width
+
+            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+                return lhs.y < rhs.y
+            })
+
+            let positionX = noseMinYPoints!.x * image.size.width
+            let framePositionY = (noseMinYPoints!.y * image.size.height) + 64
+
+
+            //let glassFrame = self.view.convert(CGPoint(x: positionX, y: framePositionY), to: self.imageView)
+            let glassFrame = CGPoint(x: positionX, y: framePositionY)
+
+            self.positionFrame(point: glassFrame)
+            //let scaleFator = 1 + ((pupilDistance - 140) / 100)
+            //print ("ScaleFactor \(scaleFator)")
+            //self.scaleFrame(scaleFactor : scaleFator )
             self.imageView.image = resultImage
         }
     }
     
     func positionFrame(point : CGPoint){
-        let layer = self.frameFront.layer
-        layer.position = point
+        print("frame to = \(point)")
+        print("frame before (\(self.frameFront.frame)")
+        self.frameFront.center = point
+        print("frame after (\(self.frameFront.frame)")
     }
     func scaleFrame(scaleFactor: CGFloat){
         let layer = self.frameFront.layer

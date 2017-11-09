@@ -11,6 +11,7 @@ import CoreMotion
 
 class ViewController: UIViewController, FrameExtractorDelegate {
 
+    //MARK: - properties
     @IBOutlet weak var instructions: UILabel!
     
     @IBOutlet weak var faceShapeImageView: UIImageView!
@@ -24,7 +25,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     var drawer = DrawObjects()
     @IBOutlet weak var imageView: UIImageView!
-
+    //MARK: - override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coreMotion.deviceMotionUpdateInterval = 0.1;
@@ -58,6 +59,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         self.imagesCollection = [UIImage]()
     }
 
+    //MARK: - Events
     func initFrameExtractor() {
         frameExtractor = FrameExtractor()
         frameExtractor.delegate = self
