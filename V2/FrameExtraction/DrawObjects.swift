@@ -105,6 +105,30 @@ class DrawObjects: NSObject {
         UIGraphicsEndImageContext()
         return (coloredImg, pupilDistanceString)
     }
+
+    func drawGlasses(personPicture image:UIImage, boundingRect: CGRect, face :VNFaceObservation) -> UIImage {
+
+        let landmarks = face.landmarks
+        let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+
+        let boundsRectOriginX = boundingRect.origin.x * image.size.width
+        let boundsRectOriginY = boundingRect.origin.y * image.size.height
+        let rectWidth = image.size.width * boundingRect.size.width
+        let rectHeight = image.size.height * boundingRect.size.height
+
+        let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
+        let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY
+
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(in: CGRect(origin: .zero, size: image.size))
+        UIImage(named: "frameFront")!.draw(in: CGRect(x: positionX, y: framePositionY, width: 200, height: 50))
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result!
+
+    }
     
     func drawFacePoints(source: UIImage,
                                     boundingRect: CGRect,

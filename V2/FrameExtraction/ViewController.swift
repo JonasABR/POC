@@ -184,10 +184,17 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 //
 //        }
 
+
+
         faceDetector.highlightFacePoints(for: image) {[unowned self] (boundsRect, landmarkRegions, face : VNFaceObservation) in
-            let resultImage = self.drawer.drawFacePoints(source: image,
-                                                         boundingRect: boundsRect,
-                                                         faceLandmarkRegions: landmarkRegions)
+
+            let resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
+
+
+
+//            let resultImage = self.drawer.drawFacePoints(source: glass,
+//                                                         boundingRect: boundsRect,
+//                                                         faceLandmarkRegions: landmarkRegions)
 
             let landmarks = face.landmarks
             //let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
@@ -204,8 +211,20 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                 return lhs.y < rhs.y
             })
 
-            let positionX = noseMinYPoints!.x * image.size.width
-            let framePositionY = (noseMinYPoints!.y * image.size.height)
+            print(landmarks?.noseCrest?.normalizedPoints)
+            print("Min \(noseMinYPoints)")
+
+            let boundsRectOriginX = boundsRect.origin.x * self.imageView.frame.size.width
+            let boundsRectOriginY = boundsRect.origin.y * self.imageView.frame.size.height
+            let rectWidth = self.imageView.frame.size.width * boundsRect.size.width
+            let rectHeight = self.imageView.frame.size.height * boundsRect.size.height
+
+
+            let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
+            let framePositionY = (1 - noseMinYPoints!.y) * rectHeight + boundsRectOriginY
+
+            print("rect: \(boundsRect)")
+            print("NOSE MIN \(noseMinYPoints!.y)")
 
             //let glassFrame = self.imageView.convert(CGPoint(x: positionX, y: framePositionY), to: self.view)
             let glassFrame = CGPoint(x: positionX, y: framePositionY)
@@ -222,6 +241,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         print("frame to = \(point)")
         print("frame before (\(self.frameFront.frame)")
         self.frameFront.center = point
+//        self.frameFront.frame.origin.y += self.imageView.frame.origin.y
         print("frame after (\(self.frameFront.frame)")
     }
     func scaleFrame(scaleFactor: CGFloat){
