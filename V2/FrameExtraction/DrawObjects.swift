@@ -121,9 +121,18 @@ class DrawObjects: NSObject {
         let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
         let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY
 
+//        print("Min: \(noseMinYPoints)")
+//        print(framePositionY)
+
+        var t = CGAffineTransform(scaleX: 1, y: -1)
+        t = t.translatedBy(x: 0, y: -image.size.height)
+        let pointUIKit = CGPoint(x: positionX, y: framePositionY).applying(t)
+
         UIGraphicsBeginImageContext(image.size)
         image.draw(in: CGRect(origin: .zero, size: image.size))
-        UIImage(named: "frameFront")!.draw(in: CGRect(x: positionX, y: framePositionY, width: 200, height: 50))
+        let glass = UIImage(named: "frameFront")!
+        let glassSize = CGSize(width: 200.0, height: 50.0)
+        glass.draw(in: CGRect(x: pointUIKit.x - (glassSize.width / 2) , y: pointUIKit.y - (glassSize.height / 2), width: glassSize.width, height: glassSize.height))
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return result!

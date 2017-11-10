@@ -190,49 +190,49 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
             let resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
 
-
-
-//            let resultImage = self.drawer.drawFacePoints(source: glass,
-//                                                         boundingRect: boundsRect,
-//                                                         faceLandmarkRegions: landmarkRegions)
-
-            let landmarks = face.landmarks
-            //let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
-            let glassImagePupilDistance = 96
-
-
-
-            //            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
-            //            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
-            //
-            //            let rightX = (landmarks!.rightEye!.normalizedPoints.first?.x)! * image.size.width
-
-            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
-                return lhs.y < rhs.y
-            })
-
-            print(landmarks?.noseCrest?.normalizedPoints)
-            print("Min \(noseMinYPoints)")
-
-            let boundsRectOriginX = boundsRect.origin.x * self.imageView.frame.size.width
-            let boundsRectOriginY = boundsRect.origin.y * self.imageView.frame.size.height
-            let rectWidth = self.imageView.frame.size.width * boundsRect.size.width
-            let rectHeight = self.imageView.frame.size.height * boundsRect.size.height
-
-
-            let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
-            let framePositionY = (1 - noseMinYPoints!.y) * rectHeight + boundsRectOriginY
-
-            print("rect: \(boundsRect)")
-            print("NOSE MIN \(noseMinYPoints!.y)")
-
-            //let glassFrame = self.imageView.convert(CGPoint(x: positionX, y: framePositionY), to: self.view)
-            let glassFrame = CGPoint(x: positionX, y: framePositionY)
-
-            self.positionFrame(point: glassFrame)
-            //let scaleFator = 1 + ((pupilDistance - 140) / 100)
-            //print ("ScaleFactor \(scaleFator)")
-            //self.scaleFrame(scaleFactor : scaleFator )
+//
+//
+////            let resultImage = self.drawer.drawFacePoints(source: glass,
+////                                                         boundingRect: boundsRect,
+////                                                         faceLandmarkRegions: landmarkRegions)
+//
+//            let landmarks = face.landmarks
+//            //let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
+//            let glassImagePupilDistance = 96
+//
+//
+//
+//            //            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
+//            //            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
+//            //
+//            //            let rightX = (landmarks!.rightEye!.normalizedPoints.first?.x)! * image.size.width
+//
+//            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+//                return lhs.y < rhs.y
+//            })
+//
+//            print(landmarks?.noseCrest?.normalizedPoints)
+//            print("Min \(noseMinYPoints)")
+//
+//            let boundsRectOriginX = boundsRect.origin.x * self.imageView.frame.size.width
+//            let boundsRectOriginY = boundsRect.origin.y * self.imageView.frame.size.height
+//            let rectWidth = self.imageView.frame.size.width * boundsRect.size.width
+//            let rectHeight = self.imageView.frame.size.height * boundsRect.size.height
+//
+//
+//            let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
+//            let framePositionY = (1 - noseMinYPoints!.y) * rectHeight + boundsRectOriginY
+//
+//            print("rect: \(boundsRect)")
+//            print("NOSE MIN \(noseMinYPoints!.y)")
+//
+//            //let glassFrame = self.imageView.convert(CGPoint(x: positionX, y: framePositionY), to: self.view)
+//            let glassFrame = CGPoint(x: positionX, y: framePositionY)
+//
+//            self.positionFrame(point: glassFrame)
+//            //let scaleFator = 1 + ((pupilDistance - 140) / 100)
+//            //print ("ScaleFactor \(scaleFator)")
+//            //self.scaleFrame(scaleFactor : scaleFator )
             self.imageView.image = resultImage
         }
     }
