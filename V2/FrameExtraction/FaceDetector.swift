@@ -47,6 +47,8 @@ class FaceDetector {
                         guard let landmarks = faceObservation.landmarks else {
                             continue
                         }
+
+                        
                         let boundingRect = faceObservation.boundingBox
                         
                         var landmarkRegions: [VNFaceLandmarkRegion2D] = []

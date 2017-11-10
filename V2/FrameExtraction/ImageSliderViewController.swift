@@ -60,11 +60,11 @@ class ImageSliderViewController: UIViewController {
             })
 
             let positionX = noseMinYPoints!.x * image.size.width
-            let framePositionY = (noseMinYPoints!.y * image.size.height) + 64
+            let framePositionY = (noseMinYPoints!.y * image.size.height)
 
 
-            //let glassFrame = self.view.convert(CGPoint(x: positionX, y: framePositionY), to: self.imageView)
-            let glassFrame = CGPoint(x: positionX, y: framePositionY)
+            let glassFrame = self.imageView.convert(CGPoint(x: positionX, y: framePositionY), to: self.view)
+            //let glassFrame = CGPoint(x: positionX, y: framePositionY)
 
             self.positionFrame(point: glassFrame)
             //let scaleFator = 1 + ((pupilDistance - 140) / 100)

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreMotion
+import Vision
 
 class ViewController: UIViewController, FrameExtractorDelegate {
 
@@ -19,6 +20,9 @@ class ViewController: UIViewController, FrameExtractorDelegate {
     var imagesCollection = [UIImage]()
     var isRunning = true
     var isCapturing = false
+    let faceDetector = FaceDetector()
+    @IBOutlet weak var frameFront: UIImageView!
+
     @IBOutlet var captureButton: UIButton!
     @IBOutlet var PDLabel: UILabel!
     var coreMotion = CMMotionManager()
@@ -46,6 +50,9 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                 }
             }
         }
+
+        self.frameFront.layer.borderWidth = 1.0
+        self.frameFront.layer.borderColor = UIColor.red.cgColor
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -90,7 +97,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
 
     @IBAction func calculatePD(_ sender: Any) {
         self.isRunning = false
-        let faceDetector = FaceDetector()
+
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
  
@@ -98,7 +105,7 @@ class ViewController: UIViewController, FrameExtractorDelegate {
         faceDetector.detectCardSize(for: originalImage) { [unowned self] (pixelMmRatio, cardPoints, success) in
             let resultImage = self.drawer.drawCardBounds(source: originalImage, bounds: cardPoints) ?? originalImage
             if (pixelMmRatio != 1 && success){
-                faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
+                self.faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
                     if success {
                         let tupleResult = self.drawer.drawOnImage(source: resultImage,
                                                                   boundingRect: boundRect,
@@ -117,12 +124,12 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                     else{
                         print("Card, but no faces")
                         self.imagesCollection = []
-                        self.imagesCollection.append(resultImage)
-                        self.pushToViewer()
+                        //self.imagesCollection.append(resultImage)
+                        //self.pushToViewer()
                     }
                  }
             } else{
-                faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
+                self.faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
                     if success {
                         let tupleResult = self.drawer.drawOnImage(source: resultImage,
                                                                   boundingRect: boundRect,
@@ -166,24 +173,82 @@ class ViewController: UIViewController, FrameExtractorDelegate {
                 self.imagesCollection.append(image)
             }
         }
-        imageView.image = image
+
+//        faceDetector.detectFaces(for: image) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
+//            let tupleResult = self.drawer.drawOnImage(source: resultImage,
+//                                                      boundingRect: boundRect,
+//                                                      faceLandmarkRegions: landmarkRegions,
+//                                                      leftPupil: leftPupil,
+//                                                      rightPupil: rightPupil,
+//                                                      ratio: pixelMmRatio)
+//
+//        }
+
+        faceDetector.highlightFacePoints(for: image) {[unowned self] (boundsRect, landmarkRegions, face : VNFaceObservation) in
+            let resultImage = self.drawer.drawFacePoints(source: image,
+                                                         boundingRect: boundsRect,
+                                                         faceLandmarkRegions: landmarkRegions)
+
+            let landmarks = face.landmarks
+            //let pupilDistance = self.distance(from: (landmarks!.leftEye!.normalizedPoints.first)!, to: (landmarks!.rightEye!.normalizedPoints.first)!) * image.size.width
+            let glassImagePupilDistance = 96
+
+
+
+            //            let leftX = (landmarks!.leftEye!.normalizedPoints.first?.x)! * image.size.width
+            //            let leftY = (landmarks!.leftEye!.normalizedPoints.first?.y)! * image.size.height
+            //
+            //            let rightX = (landmarks!.rightEye!.normalizedPoints.first?.x)! * image.size.width
+
+            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+                return lhs.y < rhs.y
+            })
+
+            let positionX = noseMinYPoints!.x * image.size.width
+            let framePositionY = (noseMinYPoints!.y * image.size.height)
+
+            //let glassFrame = self.imageView.convert(CGPoint(x: positionX, y: framePositionY), to: self.view)
+            let glassFrame = CGPoint(x: positionX, y: framePositionY)
+
+            self.positionFrame(point: glassFrame)
+            //let scaleFator = 1 + ((pupilDistance - 140) / 100)
+            //print ("ScaleFactor \(scaleFator)")
+            //self.scaleFrame(scaleFactor : scaleFator )
+            self.imageView.image = resultImage
+        }
+    }
+
+    func positionFrame(point : CGPoint){
+        print("frame to = \(point)")
+        print("frame before (\(self.frameFront.frame)")
+        self.frameFront.center = point
+        print("frame after (\(self.frameFront.frame)")
+    }
+    func scaleFrame(scaleFactor: CGFloat){
+        let layer = self.frameFront.layer
+        layer.transform = CATransform3DMakeScale(scaleFactor, scaleFactor, 1)
+        layer.zPosition = 1000
     }
 
     func rotateFaceIndicator(angle:Double) {
-        let layer = self.faceShapeImageView.layer
-        if (abs(angle) > 3){
-            layer.backgroundColor = UIColor(red:1.0, green: 0.0, blue: 0.0, alpha: 0.2).cgColor
-            instructions.text = "Tilt your phone to upright position"
+        if self.faceShapeImageView.layer != nil {
+            let layer = self.faceShapeImageView.layer
+            if (abs(angle) > 3){
+                layer.backgroundColor = UIColor(red:1.0, green: 0.0, blue: 0.0, alpha: 0.2).cgColor
+                instructions.text = "Tilt your phone to upright position"
+            }
+            else{
+                layer.backgroundColor = UIColor(red:0.0, green: 1.0, blue: 0.0, alpha: 0.4).cgColor
+                instructions.text = "Make sure your face is within the green rectangle"
+            }
+
+            var rotationAndPerspectiveTransform = CATransform3DIdentity
+            rotationAndPerspectiveTransform.m34 = 1.0 / -200
+            rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * -Double.pi / 180.0), 1.0, 0, 0.0)
+            layer.transform = rotationAndPerspectiveTransform
+            layer.zPosition = 1000
+
         }
-        else{
-            layer.backgroundColor = UIColor(red:0.0, green: 1.0, blue: 0.0, alpha: 0.4).cgColor
-            instructions.text = "Make sure your face is within the green rectangle"
-        }
-        
-        var rotationAndPerspectiveTransform = CATransform3DIdentity
-        rotationAndPerspectiveTransform.m34 = 1.0 / -200
-        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * -Double.pi / 180.0), 1.0, 0, 0.0)
-        layer.transform = rotationAndPerspectiveTransform
-        layer.zPosition = 1000
+
     }
 }
