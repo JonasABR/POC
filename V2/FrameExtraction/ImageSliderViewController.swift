@@ -55,7 +55,7 @@ class ImageSliderViewController: UIViewController {
 //
 //            let rightX = (landmarks!.rightEye!.normalizedPoints.first?.x)! * image.size.width
 
-            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+            let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
                 return lhs.y < rhs.y
             })
 
