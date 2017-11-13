@@ -123,6 +123,7 @@ class DrawObjects: NSObject {
         
         let angle = ((leftpupilPoint?.angle(to: rightpupilPoint!))! * -1)
         let distance = (leftpupilPoint?.distance(to: rightpupilPoint!))!
+        //print("Eye Distance: \(distance)")
         
         // TODO: Change the size of the frame if the face is closer or far from the camera
         let scaleFactor = 1.0
@@ -132,8 +133,16 @@ class DrawObjects: NSObject {
         let rectWidth = image.size.width * boundingRect.size.width
         let rectHeight = image.size.height * boundingRect.size.height
 
+
         let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
         let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY
+
+        let leftEyeX = boundsRectOriginX + leftpupilPoint!.x * rectWidth
+        let leftEyeY = leftpupilPoint!.y * rectHeight + boundsRectOriginY
+        let rightEyeX = boundsRectOriginX + rightpupilPoint!.x * rectWidth
+        let rightEyeY = rightpupilPoint!.y * rectHeight + boundsRectOriginY
+        let distancePixels = hypot(leftEyeX.distance(to: rightEyeX), leftEyeY.distance(to: rightEyeY))
+        print("Pixels Distancer \(distancePixels)")
 
         var t = CGAffineTransform(scaleX: 1, y: -1)
         t = t.translatedBy(x: 0, y: -image.size.height)
@@ -142,7 +151,7 @@ class DrawObjects: NSObject {
         UIGraphicsBeginImageContext(image.size)
         image.draw(in: CGRect(origin: .zero, size: image.size))
         var glass = UIImage(named: "frameFront")!
-        let glassSize = CGSize(width: 200.0, height: 80.0)
+        let glassSize = CGSize(width: 2.6 * distancePixels, height: distancePixels)
         glass = glass.rotatedAndScale(angle: angle, size: glassSize, scale: CGFloat(scaleFactor))
         glass.draw(in: CGRect(x: pointUIKit.x - (glass.size.width / 2) , y: pointUIKit.y - (glass.size.height / 2), width: glass.size.width, height: glass.size.height))
         let result = UIGraphicsGetImageFromCurrentImageContext()
