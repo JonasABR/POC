@@ -109,20 +109,40 @@ class DrawObjects: NSObject {
     func drawGlasses(personPicture image:UIImage, boundingRect: CGRect, face :VNFaceObservation) -> UIImage {
 
         let landmarks = face.landmarks
-        let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+        let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
             return lhs.y < rhs.y
         })
 
+        let leftpupilPoint = landmarks?.leftPupil?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        
+        let rightpupilPoint = landmarks?.rightPupil?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        
+        let angle = ((leftpupilPoint?.angle(to: rightpupilPoint!))! * -1)
+        let distance = (leftpupilPoint?.distance(to: rightpupilPoint!))!
+        //print("Eye Distance: \(distance)")
+        
+        // TODO: Change the size of the frame if the face is closer or far from the camera
+        let scaleFactor = 1.0
+        
         let boundsRectOriginX = boundingRect.origin.x * image.size.width
         let boundsRectOriginY = boundingRect.origin.y * image.size.height
         let rectWidth = image.size.width * boundingRect.size.width
         let rectHeight = image.size.height * boundingRect.size.height
 
+
         let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
         let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY
 
-//        print("Min: \(noseMinYPoints)")
-//        print(framePositionY)
+        let leftEyeX = boundsRectOriginX + leftpupilPoint!.x * rectWidth
+        let leftEyeY = leftpupilPoint!.y * rectHeight + boundsRectOriginY
+        let rightEyeX = boundsRectOriginX + rightpupilPoint!.x * rectWidth
+        let rightEyeY = rightpupilPoint!.y * rectHeight + boundsRectOriginY
+        let distancePixels = hypot(leftEyeX.distance(to: rightEyeX), leftEyeY.distance(to: rightEyeY))
+        print("Pixels Distancer \(distancePixels)")
 
         var t = CGAffineTransform(scaleX: 1, y: -1)
         t = t.translatedBy(x: 0, y: -image.size.height)
@@ -130,15 +150,18 @@ class DrawObjects: NSObject {
 
         UIGraphicsBeginImageContext(image.size)
         image.draw(in: CGRect(origin: .zero, size: image.size))
-        let glass = UIImage(named: "frameFront")!
-        let glassSize = CGSize(width: 200.0, height: 50.0)
-        glass.draw(in: CGRect(x: pointUIKit.x - (glassSize.width / 2) , y: pointUIKit.y - (glassSize.height / 2), width: glassSize.width, height: glassSize.height))
+        var glass = UIImage(named: "frameFront")!
+        let glassSize = CGSize(width: 2.6 * distancePixels, height: distancePixels)
+        glass = glass.rotatedAndScale(angle: angle, size: glassSize, scale: CGFloat(scaleFactor))
+        glass.draw(in: CGRect(x: pointUIKit.x - (glass.size.width / 2) , y: pointUIKit.y - (glass.size.height / 2), width: glass.size.width, height: glass.size.height))
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
         return result!
 
     }
     
+
     func drawFacePoints(source: UIImage,
                                     boundingRect: CGRect,
                                     faceLandmarkRegions: [VNFaceLandmarkRegion2D]) -> UIImage {

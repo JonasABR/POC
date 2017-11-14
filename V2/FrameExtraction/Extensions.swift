@@ -59,7 +59,53 @@ extension CGPoint {
     func distance(to rhs: CGPoint) -> CGFloat {
         return hypot(self.x.distance(to: rhs.x), self.y.distance(to: rhs.y))
     }
+    
+    func angle(to comparisonPoint: CGPoint) -> CGFloat {
+        let originX = comparisonPoint.x - self.x
+        let originY = comparisonPoint.y - self.y
+        let bearingRadians = atan2f(Float(originY), Float(originX))
+        var bearingDegrees = CGFloat(bearingRadians).degrees
+        return bearingDegrees
+    }
+}
+
+extension CGFloat {
+    var degrees: CGFloat {
+        return self * CGFloat(180.0 / Double.pi)
+    }
+}
 
 
-
+extension UIImage{
+    public func rotatedAndScale(angle: CGFloat, size: CGSize, scale: CGFloat) -> UIImage {
+        let degreesToRadians: (CGFloat) -> CGFloat = {
+            return $0 / 180.0 * CGFloat.pi
+        }
+        
+        // calculate the size of the rotated view's containing box for our drawing space
+        let rotatedViewBox = UIView(frame: CGRect(origin: .zero, size: size))
+        let t = CGAffineTransform(rotationAngle: degreesToRadians(angle));
+        rotatedViewBox.transform = t
+        let rotatedSize = rotatedViewBox.frame.size
+        
+        // Create the bitmap context
+        UIGraphicsBeginImageContext(rotatedSize)
+        let bitmap = UIGraphicsGetCurrentContext()
+        
+        // Move the origin to the middle of the image so we will rotate and scale around the center.
+        bitmap?.translateBy(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0)
+        
+        // Rotate the image context
+        bitmap?.rotate(by: degreesToRadians(angle))
+        bitmap?.scaleBy(x: scale, y: (scale * -1))
+        
+        let rect = CGRect(x: -size.width / 2, y: -size.height / 2, width: size.width, height: size.height)
+        
+        bitmap?.draw(cgImage!, in: rect)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
 }
