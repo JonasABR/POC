@@ -8,20 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		0E05818B1FBB1FAB00D9EE61 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05818A1FBB1FAB00D9EE61 /* AppDelegate.swift */; };
-		0E05818D1FBB1FAB00D9EE61 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05818C1FBB1FAB00D9EE61 /* ViewController.swift */; };
+		0E05818D1FBB1FAB00D9EE61 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05818C1FBB1FAB00D9EE61 /* MainViewController.swift */; };
 		0E0581901FBB1FAB00D9EE61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E05818E1FBB1FAB00D9EE61 /* Main.storyboard */; };
 		0E0581921FBB1FAB00D9EE61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E0581911FBB1FAB00D9EE61 /* Assets.xcassets */; };
 		0E0581951FBB1FAB00D9EE61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0581931FBB1FAB00D9EE61 /* LaunchScreen.storyboard */; };
+		0E05819D1FBB24BF00D9EE61 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05819C1FBB24BF00D9EE61 /* VideoCapture.swift */; };
+		0E0581A11FBB254200D9EE61 /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A01FBB254100D9EE61 /* FaceDetector.swift */; };
+		0E0581A31FBB255E00D9EE61 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A21FBB255E00D9EE61 /* Extensions.swift */; };
+		0E0581A51FBB25D800D9EE61 /* DrawObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A41FBB25D700D9EE61 /* DrawObjects.swift */; };
+		0E0581A71FBB266900D9EE61 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0E0581871FBB1FAB00D9EE61 /* ZenniPOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenniPOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E05818A1FBB1FAB00D9EE61 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0E05818C1FBB1FAB00D9EE61 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0E05818C1FBB1FAB00D9EE61 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0E05818F1FBB1FAB00D9EE61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0E0581911FBB1FAB00D9EE61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E0581941FBB1FAB00D9EE61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E0581961FBB1FAB00D9EE61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E05819C1FBB24BF00D9EE61 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		0E05819F1FBB24FB00D9EE61 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		0E0581A01FBB254100D9EE61 /* FaceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
+		0E0581A21FBB255E00D9EE61 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../../V2/FrameExtraction/Extensions.swift; sourceTree = "<group>"; };
+		0E0581A41FBB25D700D9EE61 /* DrawObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawObjects.swift; path = ../../V2/FrameExtraction/DrawObjects.swift; sourceTree = "<group>"; };
+		0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +51,7 @@
 			children = (
 				0E0581891FBB1FAB00D9EE61 /* ZenniPOC */,
 				0E0581881FBB1FAB00D9EE61 /* Products */,
+				0E05819E1FBB24FA00D9EE61 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +66,43 @@
 		0E0581891FBB1FAB00D9EE61 /* ZenniPOC */ = {
 			isa = PBXGroup;
 			children = (
+				0E0581A91FBB268E00D9EE61 /* Capture */,
+				0E0581A81FBB268200D9EE61 /* ViewController */,
 				0E05818A1FBB1FAB00D9EE61 /* AppDelegate.swift */,
-				0E05818C1FBB1FAB00D9EE61 /* ViewController.swift */,
 				0E05818E1FBB1FAB00D9EE61 /* Main.storyboard */,
+				0E0581A41FBB25D700D9EE61 /* DrawObjects.swift */,
+				0E0581A21FBB255E00D9EE61 /* Extensions.swift */,
 				0E0581911FBB1FAB00D9EE61 /* Assets.xcassets */,
 				0E0581931FBB1FAB00D9EE61 /* LaunchScreen.storyboard */,
 				0E0581961FBB1FAB00D9EE61 /* Info.plist */,
 			);
 			path = ZenniPOC;
+			sourceTree = "<group>";
+		};
+		0E05819E1FBB24FA00D9EE61 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E05819F1FBB24FB00D9EE61 /* CoreMotion.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0E0581A81FBB268200D9EE61 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0E05818C1FBB1FAB00D9EE61 /* MainViewController.swift */,
+				0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0E0581A91FBB268E00D9EE61 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				0E05819C1FBB24BF00D9EE61 /* VideoCapture.swift */,
+				0E0581A01FBB254100D9EE61 /* FaceDetector.swift */,
+			);
+			path = Capture;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,7 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E05818D1FBB1FAB00D9EE61 /* ViewController.swift in Sources */,
+				0E0581A51FBB25D800D9EE61 /* DrawObjects.swift in Sources */,
+				0E0581A31FBB255E00D9EE61 /* Extensions.swift in Sources */,
+				0E0581A71FBB266900D9EE61 /* PreviewViewController.swift in Sources */,
+				0E05818D1FBB1FAB00D9EE61 /* MainViewController.swift in Sources */,
+				0E05819D1FBB24BF00D9EE61 /* VideoCapture.swift in Sources */,
+				0E0581A11FBB254200D9EE61 /* FaceDetector.swift in Sources */,
 				0E05818B1FBB1FAB00D9EE61 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +263,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -266,6 +313,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -280,7 +328,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avenuecode.ZenniPOC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -295,7 +343,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avenuecode.ZenniPOC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -267,7 +267,6 @@ class ViewController: UIViewController, FrameExtractorDelegate {
             rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * -Double.pi / 180.0), 1.0, 0, 0.0)
             layer.transform = rotationAndPerspectiveTransform
             layer.zPosition = 1000
-
         }
 
     }
