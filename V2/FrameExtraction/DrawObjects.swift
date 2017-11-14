@@ -135,7 +135,7 @@ class DrawObjects: NSObject {
 
 
         let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
-        let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY
+        let framePositionY = noseMinYPoints!.y * rectHeight + boundsRectOriginY - 10
 
         let leftEyeX = boundsRectOriginX + leftpupilPoint!.x * rectWidth
         let leftEyeY = leftpupilPoint!.y * rectHeight + boundsRectOriginY
@@ -151,7 +151,7 @@ class DrawObjects: NSObject {
         UIGraphicsBeginImageContext(image.size)
         image.draw(in: CGRect(origin: .zero, size: image.size))
         var glass = UIImage(named: "frameFront")!
-        let glassSize = CGSize(width: 2.6 * distancePixels, height: distancePixels)
+        let glassSize = CGSize(width: 2.3 * distancePixels, height: distancePixels)
         glass = glass.rotatedAndScale(angle: angle, size: glassSize, scale: CGFloat(scaleFactor))
         glass.draw(in: CGRect(x: pointUIKit.x - (glass.size.width / 2) , y: pointUIKit.y - (glass.size.height / 2), width: glass.size.width, height: glass.size.height))
         let result = UIGraphicsGetImageFromCurrentImageContext()
