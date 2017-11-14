@@ -34,6 +34,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glasses" translatesAutoresizingMaskIntoConstraints="NO" id="BYm-99-nYo">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRR-Uo-fb4">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="WmG-La-yeB">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q10-8O-eX1">
                                 <rect key="frame" x="0.0" y="264" width="375" height="40"/>
                                 <constraints>
@@ -80,20 +91,28 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.6705882353" blue="0.44201743197278914" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="BYm-99-nYo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1OC-hs-s8d"/>
                             <constraint firstItem="yo7-h7-T9J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2bK-IF-EdV"/>
+                            <constraint firstItem="TRR-Uo-fb4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6kX-n7-ehz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="q10-8O-eX1" secondAttribute="trailing" id="9gz-97-GvJ"/>
                             <constraint firstItem="SrP-bS-gjT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Es9-OI-ZM1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SrP-bS-gjT" secondAttribute="trailing" id="Gwf-Qo-oQy"/>
                             <constraint firstItem="yo7-h7-T9J" firstAttribute="top" secondItem="q10-8O-eX1" secondAttribute="bottom" constant="30" id="RGf-sf-plI"/>
+                            <constraint firstItem="BYm-99-nYo" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="UTR-zM-wXD"/>
                             <constraint firstItem="q10-8O-eX1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="WKm-R6-SbM"/>
                             <constraint firstItem="SN3-Gp-FOq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Wiv-Sh-Hrw"/>
+                            <constraint firstItem="TRR-Uo-fb4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-64" id="a7Z-p4-MkU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yo7-h7-T9J" secondAttribute="trailing" id="aTx-qz-e3b"/>
+                            <constraint firstItem="TRR-Uo-fb4" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="bHn-mq-XkL"/>
+                            <constraint firstItem="BYm-99-nYo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-64" id="bIJ-qO-YZG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SN3-Gp-FOq" secondAttribute="trailing" id="hBz-zd-OsW"/>
                             <constraint firstItem="q10-8O-eX1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="i0V-X7-i8c"/>
                             <constraint firstItem="SrP-bS-gjT" firstAttribute="top" secondItem="yo7-h7-T9J" secondAttribute="bottom" constant="30" id="lqM-5T-zU5"/>
+                            <constraint firstItem="TRR-Uo-fb4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pfs-U3-GjJ"/>
                             <constraint firstItem="SN3-Gp-FOq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="qbF-OD-qQp"/>
+                            <constraint firstItem="BYm-99-nYo" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="xdi-so-jpo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -101,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="78" y="29"/>
+            <point key="canvasLocation" x="77.599999999999994" y="28.335832083958024"/>
         </scene>
         <!--Preview View Controller-->
         <scene sceneID="FbK-WY-hkQ">
@@ -159,7 +178,7 @@
         <!--Image Slider View Controller-->
         <scene sceneID="vcl-NH-NW9">
             <objects>
-                <viewController storyboardIdentifier="ImageSliderViewController" id="WXm-7e-ggC" customClass="ImageSliderViewController" customModule="FrameExtraction" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageSliderViewController" id="WXm-7e-ggC" customClass="ImageSliderViewController" customModule="ZenniPOC" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Lba-3w-Yno"/>
                         <viewControllerLayoutGuide type="bottom" id="Mvf-WV-aYf"/>
@@ -205,4 +224,7 @@
             <point key="canvasLocation" x="1858" y="28"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="glasses" width="738" height="368"/>
+    </resources>
 </document>
