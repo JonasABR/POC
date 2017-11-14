@@ -14,6 +14,7 @@ class ImageSliderViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var imagesArray: [UIImage]?
     var drawer = DrawObjects()
+    var showFacePoints = false
     private var startLocation: CGPoint = CGPoint.zero
     var pixelsPerImage:CGFloat {
         guard let imagesArray = self.imagesArray else {
@@ -33,7 +34,9 @@ class ImageSliderViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didReceivePanGesture(panGesture:)))
         self.imageView.addGestureRecognizer(panGestureRecognizer)
-        self.markFacePoints(image: (imagesArray?.first)!)
+        if showFacePoints {
+            self.markFacePoints(image: (imagesArray?.first)!)
+        }
     }
     
     func markFacePoints(image : UIImage){
@@ -63,8 +66,9 @@ class ImageSliderViewController: UIViewController {
                 } else if newIndex >= imagesArray.count {
                     newIndex = imagesArray.count - 1
                 }
-
-                markFacePoints(image: imagesArray[newIndex])
+                if showFacePoints {
+                    markFacePoints(image: imagesArray[newIndex])
+                }
                 if panGesture.state == .ended {
                     self.currentIndex = newIndex
                 }
