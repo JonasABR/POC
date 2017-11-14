@@ -164,14 +164,14 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
                         if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
                             self.imagesCollection.append(newImage)
-                            self.pushToViewer()
+                            self.pushToViewer(showFacePoints: false)
                         }
                     }
                     else{
                         print("Card, but no faces")
                         self.imagesCollection = []
                         self.imagesCollection.append(resultImage)
-                        self.pushToViewer()
+                        self.pushToViewer(showFacePoints: false)
                     }
                 }
             } else{
@@ -189,7 +189,7 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
                         if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
                             self.imagesCollection = []
                             self.imagesCollection.append(newImage)
-                            self.pushToViewer()
+                            self.pushToViewer(showFacePoints: false)
                         }
                     }
                 }
@@ -199,12 +199,13 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
 
     func showFacePoints() {
         skipFrames()
-        pushToViewer()
+        pushToViewer(showFacePoints: true)
     }
 
-    func pushToViewer() {
+    func pushToViewer(showFacePoints: Bool) {
         if let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
             vc.imagesArray = self.imagesCollection
+            vc.showFacePoints = showFacePoints
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
