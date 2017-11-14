@@ -15,6 +15,7 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var calculatePDButton: UIButton!
     var previewType = CaptureType.none
+    @IBOutlet weak var guideLabel: UILabel!
     var frameExtractor: VideoCapture?
     let faceDetector = FaceDetector()
     var coreMotion = CMMotionManager()
@@ -22,16 +23,20 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
     var drawer = DrawObjects()
     var isRunning = true
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if previewType == CaptureType.calculatePD {
             self.calculatePDButton.isHidden = false
             self.calculatePDButton.setTitle("Calculate PD", for: .normal)
+            self.guideLabel.text = "Look straight and put the credit card on your forehead"
         } else if previewType == CaptureType.facepoints {
             self.calculatePDButton.isHidden = false
             self.calculatePDButton.setTitle("Finished", for: .normal)
+            self.guideLabel.text = "Turn your face slowly left and right and tap on Finish"
         } else {
             self.calculatePDButton.isHidden = true
+            self.guideLabel.text = "Check the glass frame in real time"
         }
         self.coreMotion.deviceMotionUpdateInterval = 0.1;
         coreMotion.startDeviceMotionUpdates()

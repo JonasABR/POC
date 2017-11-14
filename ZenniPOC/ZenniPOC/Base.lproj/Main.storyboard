@@ -145,7 +145,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn your face left and right and tap on Finish" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PMl-Pf-Uw3">
-                                <rect key="frame" x="0.0" y="20" width="375" height="17"/>
+                                <rect key="frame" x="0.0" y="30" width="375" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -153,7 +153,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PMl-Pf-Uw3" firstAttribute="top" secondItem="AGq-A7-0wJ" secondAttribute="top" id="0ns-5s-uB1"/>
+                            <constraint firstItem="PMl-Pf-Uw3" firstAttribute="top" secondItem="AGq-A7-0wJ" secondAttribute="top" constant="10" id="0ns-5s-uB1"/>
                             <constraint firstItem="AGq-A7-0wJ" firstAttribute="trailing" secondItem="PMl-Pf-Uw3" secondAttribute="trailing" id="DbR-QT-TN6"/>
                             <constraint firstItem="hAI-Oo-blZ" firstAttribute="leading" secondItem="AGq-A7-0wJ" secondAttribute="leading" id="HZg-42-nwX"/>
                             <constraint firstItem="PMl-Pf-Uw3" firstAttribute="leading" secondItem="AGq-A7-0wJ" secondAttribute="leading" id="HvR-9o-rdD"/>
@@ -168,6 +168,7 @@
                     </view>
                     <connections>
                         <outlet property="calculatePDButton" destination="hAI-Oo-blZ" id="dex-ji-Vr7"/>
+                        <outlet property="guideLabel" destination="PMl-Pf-Uw3" id="rFb-Mf-Xgb"/>
                         <outlet property="imageView" destination="hX5-GB-4pz" id="v8i-ky-hLh"/>
                     </connections>
                 </viewController>
