@@ -80,12 +80,26 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
     func captured(image: UIImage?) {
         if let image = image {
             if isRunning {
-                DispatchQueue.main.async {
+                if self.previewType == CaptureType.calculatePD {
                     self.imagesCollection.append(image)
                 }
             }
-
             self.imageView.image = image
+
+            if self.previewType == CaptureType.facepoints || self.previewType == CaptureType.realtimeGlasses {
+                faceDetector.highlightFacePoints(for: image) {[unowned self] (boundsRect, landmarkRegions, face : VNFaceObservation) in
+                    self.imageView.image = image
+
+                    var resultImage: UIImage
+                    if self.previewType == CaptureType.realtimeGlasses {
+                        resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
+                        self.imageView.image = resultImage
+                    } else if self.previewType == CaptureType.facepoints {
+                        resultImage = self.drawer.drawFacePoints(source: image, boundingRect: boundsRect, faceLandmarkRegions: landmarkRegions)
+                        self.imageView.image = resultImage
+                    }
+                }
+            }
         }
     }
 
@@ -110,6 +124,67 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
     }
 
     @IBAction func calculatePD(_ sender: Any) {
+        self.isRunning = false
 
+        guard let originalImage = self.imagesCollection.last else { return }
+        print("ArraySize: \(self.imagesCollection.count)")
+
+
+        faceDetector.detectCardSize(for: originalImage) { [unowned self] (pixelMmRatio, cardPoints, success) in
+            let resultImage = self.drawer.drawCardBounds(source: originalImage, bounds: cardPoints) ?? originalImage
+            if (pixelMmRatio != 1 && success){
+                self.faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
+                    if success {
+                        let tupleResult = self.drawer.drawOnImage(source: resultImage,
+                                                                  boundingRect: boundRect,
+                                                                  faceLandmarkRegions: landmarkRegions,
+                                                                  leftPupil: leftPupil,
+                                                                  rightPupil: rightPupil,
+                                                                  ratio: pixelMmRatio)
+
+                        print("Cards AND face!")
+                        if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
+                            self.imagesCollection = []
+                            self.imagesCollection.append(newImage)
+                            self.pushToViewer()
+                        }
+                    }
+                    else{
+                        print("Card, but no faces")
+                        self.imagesCollection = []
+                        self.imagesCollection.append(resultImage)
+                        self.pushToViewer()
+                    }
+                }
+            } else{
+                self.faceDetector.detectFaces(for: resultImage) { [unowned self](success, boundRect, leftPupil, rightPupil, landmarkRegions) in
+                    if success {
+                        let tupleResult = self.drawer.drawOnImage(source: resultImage,
+                                                                  boundingRect: boundRect,
+                                                                  faceLandmarkRegions: landmarkRegions,
+                                                                  leftPupil: leftPupil,
+                                                                  rightPupil: rightPupil,
+                                                                  ratio: pixelMmRatio)
+
+
+                        print("No card, showing the pupils tho")
+                        if let newImage = tupleResult.1.textToImage(inImage: tupleResult.0, atPoint: CGPoint.init(x: 20, y: 20)) {
+                            self.imagesCollection = []
+                            self.imagesCollection.append(newImage)
+                            self.pushToViewer()
+                        }
+                    }
+                }
+            }
+        }
+        self.isRunning = true
+
+    }
+
+    func pushToViewer() {
+        if let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
+            vc.imagesArray = self.imagesCollection
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

@@ -17,6 +17,7 @@
 		0E0581A31FBB255E00D9EE61 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A21FBB255E00D9EE61 /* Extensions.swift */; };
 		0E0581A51FBB25D800D9EE61 /* DrawObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A41FBB25D700D9EE61 /* DrawObjects.swift */; };
 		0E0581A71FBB266900D9EE61 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */; };
+		0E4A93B01FBB4D23009E2999 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4A93AF1FBB4D22009E2999 /* ImageSliderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		0E0581A21FBB255E00D9EE61 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../../V2/FrameExtraction/Extensions.swift; sourceTree = "<group>"; };
 		0E0581A41FBB25D700D9EE61 /* DrawObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawObjects.swift; path = ../../V2/FrameExtraction/DrawObjects.swift; sourceTree = "<group>"; };
 		0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		0E4A93AF1FBB4D22009E2999 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			children = (
 				0E05818C1FBB1FAB00D9EE61 /* MainViewController.swift */,
 				0E0581A61FBB266900D9EE61 /* PreviewViewController.swift */,
+				0E4A93AF1FBB4D22009E2999 /* ImageSliderViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				0E05819D1FBB24BF00D9EE61 /* VideoCapture.swift in Sources */,
 				0E0581A11FBB254200D9EE61 /* FaceDetector.swift in Sources */,
 				0E05818B1FBB1FAB00D9EE61 /* AppDelegate.swift in Sources */,
+				0E4A93B01FBB4D23009E2999 /* ImageSliderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

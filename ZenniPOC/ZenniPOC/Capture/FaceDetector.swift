@@ -52,34 +52,34 @@ class FaceDetector {
                         
                         var landmarkRegions: [VNFaceLandmarkRegion2D] = []
                         
-//                         if let faceContour = landmarks.faceContour {
-//                            landmarkRegions.append(faceContour)
-//                         }
-//
-//                         if let leftEye = landmarks.leftEye {
-//                            landmarkRegions.append(leftEye)
-//                         }
-//                         if let rightEye = landmarks.rightEye {
-//                            landmarkRegions.append(rightEye)
-//                         }
-//
-//                         if let nose = landmarks.nose {
-//                            landmarkRegions.append(nose)
-//                         }
+                         if let faceContour = landmarks.faceContour {
+                            landmarkRegions.append(faceContour)
+                         }
+
+                         if let leftEye = landmarks.leftEye {
+                            landmarkRegions.append(leftEye)
+                         }
+                         if let rightEye = landmarks.rightEye {
+                            landmarkRegions.append(rightEye)
+                         }
+
+                         if let nose = landmarks.nose {
+                            landmarkRegions.append(nose)
+                         }
                          if let noseCrest = landmarks.noseCrest {
                             landmarkRegions.append(noseCrest)
                          }
-//                         if let medianLine = landmarks.medianLine {
-//                            landmarkRegions.append(medianLine)
-//                         }
-//                        
-//                         if let leftEyebrow = landmarks.leftEyebrow {
-//                            landmarkRegions.append(leftEyebrow)
-//                         }
-//                         if let rightEyebrow = landmarks.rightEyebrow {
-//                            landmarkRegions.append(rightEyebrow)
-//                         }
-                        complete(boundingRect, landmarkRegions, faceObservation)                        
+                         if let medianLine = landmarks.medianLine {
+                            landmarkRegions.append(medianLine)
+                         }
+
+                         if let leftEyebrow = landmarks.leftEyebrow {
+                            landmarkRegions.append(leftEyebrow)
+                         }
+                         if let rightEyebrow = landmarks.rightEyebrow {
+                            landmarkRegions.append(rightEyebrow)
+                         }
+                        complete(boundingRect, landmarkRegions, faceObservation)
                     }
                 }
             } else {

@@ -73,6 +73,12 @@
                                     <action selector="facePointsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hWg-eW-yZQ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zenni Optical POC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SN3-Gp-FOq">
+                                <rect key="frame" x="0.0" y="164" width="375" height="20.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.6705882353" blue="0.44201743197278914" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -82,9 +88,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SrP-bS-gjT" secondAttribute="trailing" id="Gwf-Qo-oQy"/>
                             <constraint firstItem="yo7-h7-T9J" firstAttribute="top" secondItem="q10-8O-eX1" secondAttribute="bottom" constant="30" id="RGf-sf-plI"/>
                             <constraint firstItem="q10-8O-eX1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="WKm-R6-SbM"/>
+                            <constraint firstItem="SN3-Gp-FOq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Wiv-Sh-Hrw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yo7-h7-T9J" secondAttribute="trailing" id="aTx-qz-e3b"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SN3-Gp-FOq" secondAttribute="trailing" id="hBz-zd-OsW"/>
                             <constraint firstItem="q10-8O-eX1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="i0V-X7-i8c"/>
                             <constraint firstItem="SrP-bS-gjT" firstAttribute="top" secondItem="yo7-h7-T9J" secondAttribute="bottom" constant="30" id="lqM-5T-zU5"/>
+                            <constraint firstItem="SN3-Gp-FOq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="qbF-OD-qQp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -137,6 +146,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2vg-cJ-8GH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="878" y="30"/>
+        </scene>
+        <!--Image Slider View Controller-->
+        <scene sceneID="vcl-NH-NW9">
+            <objects>
+                <viewController storyboardIdentifier="ImageSliderViewController" id="WXm-7e-ggC" customClass="ImageSliderViewController" customModule="FrameExtraction" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Lba-3w-Yno"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvf-WV-aYf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F8y-ib-EhZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zx4-eu-zfk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="xRF-Or-OMP" appends="YES" id="CO1-a8-PAw"/>
+                                    <outletCollection property="gestureRecognizers" destination="3Oq-D9-2iB" appends="YES" id="gn5-Nj-CSW"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Zx4-eu-zfk" firstAttribute="top" secondItem="F8y-ib-EhZ" secondAttribute="top" id="Ayr-A0-Qzf"/>
+                            <constraint firstItem="Zx4-eu-zfk" firstAttribute="leading" secondItem="F8y-ib-EhZ" secondAttribute="leading" id="Ej6-Ud-ILr"/>
+                            <constraint firstAttribute="trailing" secondItem="Zx4-eu-zfk" secondAttribute="trailing" id="Odq-Yn-ZFi"/>
+                            <constraint firstItem="Mvf-WV-aYf" firstAttribute="top" secondItem="Zx4-eu-zfk" secondAttribute="bottom" id="RGB-r4-EYg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hfv-jp-Qvr"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="Zx4-eu-zfk" id="gmW-Z0-oc4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XP2-Hz-5n3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="right" id="xRF-Or-OMP">
+                    <connections>
+                        <action selector="righGesture:" destination="WXm-7e-ggC" id="WyX-Wa-9fw"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="left" id="3Oq-D9-2iB">
+                    <connections>
+                        <action selector="leftGesture:" destination="WXm-7e-ggC" id="yHV-cq-gQo"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1858" y="28"/>
         </scene>
     </scenes>
 </document>
