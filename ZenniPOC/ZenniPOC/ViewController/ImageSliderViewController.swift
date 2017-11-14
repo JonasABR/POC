@@ -33,7 +33,7 @@ class ImageSliderViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didReceivePanGesture(panGesture:)))
         self.imageView.addGestureRecognizer(panGestureRecognizer)
-        self.markFacePoints(image: (imagesArray?.first)!)
+        //self.markFacePoints(image: (imagesArray?.first)!)
     }
     
     func markFacePoints(image : UIImage){
@@ -64,7 +64,10 @@ class ImageSliderViewController: UIViewController {
                     newIndex = imagesArray.count - 1
                 }
 
-                markFacePoints(image: imagesArray[newIndex])
+                if let images = self.imagesArray {
+                    self.imageView.image = images[newIndex]
+                }
+
                 if panGesture.state == .ended {
                     self.currentIndex = newIndex
                 }

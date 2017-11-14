@@ -24,13 +24,23 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.calculatePDButton.isHidden = !(previewType == CaptureType.calculatePD)
+        if previewType == CaptureType.calculatePD {
+            self.calculatePDButton.isHidden = false
+            self.calculatePDButton.setTitle("Calculate PD", for: .normal)
+        } else if previewType == CaptureType.facepoints {
+            self.calculatePDButton.isHidden = false
+            self.calculatePDButton.setTitle("Finished", for: .normal)
+        } else {
+            self.calculatePDButton.isHidden = true
+        }
         self.coreMotion.deviceMotionUpdateInterval = 0.1;
         coreMotion.startDeviceMotionUpdates()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.imagesCollection = [UIImage]()
+        self.isRunning = true
         self.initFrameExtractor()
         if coreMotion.isDeviceMotionActive {
             coreMotion.startDeviceMotionUpdates(to: OperationQueue.main) { (data: CMDeviceMotion?, error) in
@@ -80,22 +90,18 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
     func captured(image: UIImage?) {
         if let image = image {
             if isRunning {
-                if self.previewType == CaptureType.calculatePD {
+                if self.previewType == CaptureType.calculatePD || self.previewType == CaptureType.facepoints {
                     self.imagesCollection.append(image)
                 }
             }
             self.imageView.image = image
 
-            if self.previewType == CaptureType.facepoints || self.previewType == CaptureType.realtimeGlasses {
+            if self.previewType == CaptureType.realtimeGlasses {
                 faceDetector.highlightFacePoints(for: image) {[unowned self] (boundsRect, landmarkRegions, face : VNFaceObservation) in
                     self.imageView.image = image
 
-                    var resultImage: UIImage
                     if self.previewType == CaptureType.realtimeGlasses {
-                        resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
-                        self.imageView.image = resultImage
-                    } else if self.previewType == CaptureType.facepoints {
-                        resultImage = self.drawer.drawFacePoints(source: image, boundingRect: boundsRect, faceLandmarkRegions: landmarkRegions)
+                        let resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
                         self.imageView.image = resultImage
                     }
                 }
@@ -125,10 +131,17 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
 
     @IBAction func calculatePD(_ sender: Any) {
         self.isRunning = false
+        if previewType == CaptureType.calculatePD {
+            calculatePDAction()
 
+        } else if previewType == CaptureType.facepoints {
+            showFacePoints()
+        }
+    }
+
+    func calculatePDAction() {
         guard let originalImage = self.imagesCollection.last else { return }
         print("ArraySize: \(self.imagesCollection.count)")
-
 
         faceDetector.detectCardSize(for: originalImage) { [unowned self] (pixelMmRatio, cardPoints, success) in
             let resultImage = self.drawer.drawCardBounds(source: originalImage, bounds: cardPoints) ?? originalImage
@@ -177,8 +190,11 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
                 }
             }
         }
-        self.isRunning = true
+    }
 
+    func showFacePoints() {
+        skipFrames()
+        pushToViewer()
     }
 
     func pushToViewer() {
