@@ -106,52 +106,11 @@ class FaceDetector {
                       
                         var landmarkRegions: [VNFaceLandmarkRegion2D] = []
 
-                        /* All the possible detections
-
-                       if let faceContour = landmarks.faceContour {
-                            landmarkRegions.append(faceContour)
-                        }
-                        
-                         if let leftEye = landmarkRegions.leftEye {
-                             landmarkRegions.append(leftEye)
-                         }
-                         if let rightEye = rightEye {
-                         landmarkRegions.append(rightEye)
-                         }
-
-                        if let nose = landmarks.nose {
-                            landmarkRegions.append(nose)
-                        }
-                        if let noseCrest = landmarks.noseCrest {
-                            landmarkRegions.append(noseCrest)
-                        }
-                        if let medianLine = landmarks.medianLine {
-                            landmarkRegions.append(medianLine)
-                        }
-                        if let outerLips = landmarks.outerLips {
-                            landmarkRegions.append(outerLips)
-                        }
-                        
-                         if let leftEyebrow = landmarks.leftEyebrow {
-                         landmarkRegions.append(leftEyebrow)
-                         }
-                         if let rightEyebrow = landmarks.rightEyebrow {
-                         landmarkRegions.append(rightEyebrow)
-                         }
-                         
-                         if let innerLips = landmarks.innerLips {
-                         landmarkRegions.append(innerLips)
-                         }
-                         if let leftPupil = landmarks.leftPupil {
-                         landmarkRegions.append(leftPupil)
-                         }
-                         if let rightPupil = landmarks.rightPupil {
-                         landmarkRegions.append(rightPupil)
-                         }*/
                         complete(true, boundingRect, self.getPupilCenter(pupilPoint : landmarks.leftPupil!), self.getPupilCenter(pupilPoint : landmarks.rightPupil!), landmarkRegions)
                         return
                     }
                 }
+                complete(false, CGRect.zero, CGPoint.zero, CGPoint.zero, [VNFaceLandmarkRegion2D]())
             } else {
                 print(error!.localizedDescription)
                 complete(false, CGRect.zero, CGPoint.zero, CGPoint.zero, [VNFaceLandmarkRegion2D]())
