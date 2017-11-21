@@ -106,7 +106,7 @@ class DrawObjects: NSObject {
         return (coloredImg, pupilDistanceString)
     }
 
-    func drawGlasses(personPicture image:UIImage, boundingRect: CGRect, face :VNFaceObservation) -> UIImage {
+    func drawGlasses(personImageView imageView:UIImageView, boundingRect: CGRect, face :VNFaceObservation) {
 
         let landmarks = face.landmarks
         let noseMinYPoints = landmarks?.noseCrest?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
@@ -128,10 +128,10 @@ class DrawObjects: NSObject {
         // TODO: Change the size of the frame if the face is closer or far from the camera
         let scaleFactor = 1.0
         
-        let boundsRectOriginX = boundingRect.origin.x * image.size.width
-        let boundsRectOriginY = boundingRect.origin.y * image.size.height
-        let rectWidth = image.size.width * boundingRect.size.width
-        let rectHeight = image.size.height * boundingRect.size.height
+        let boundsRectOriginX = boundingRect.origin.x * imageView.frame.size.width
+        let boundsRectOriginY = boundingRect.origin.y * imageView.frame.size.height
+        let rectWidth = imageView.frame.size.width * boundingRect.size.width
+        let rectHeight = imageView.frame.size.height * boundingRect.size.height
 
 
         let positionX = boundsRectOriginX + noseMinYPoints!.x * rectWidth
@@ -145,22 +145,35 @@ class DrawObjects: NSObject {
         print("Pixels Distancer \(distancePixels)")
 
         var t = CGAffineTransform(scaleX: 1, y: -1)
-        t = t.translatedBy(x: 0, y: -image.size.height)
+        t = t.translatedBy(x: 0, y: -imageView.frame.size.height)
         let pointUIKit = CGPoint(x: positionX, y: framePositionY).applying(t)
 
-        UIGraphicsBeginImageContext(image.size)
-        image.draw(in: CGRect(origin: .zero, size: image.size))
-        var glass = UIImage(named: "frameFront")!
-        let glassSize = CGSize(width: 2.3 * distancePixels, height: distancePixels)
-        glass = glass.rotatedAndScale(angle: angle, size: glassSize, scale: CGFloat(scaleFactor))
-        glass.draw(in: CGRect(x: pointUIKit.x - (glass.size.width / 2) , y: pointUIKit.y - (glass.size.height / 2), width: glass.size.width, height: glass.size.height))
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return result!
+//        UIGraphicsBeginImageContext(image.size)
+//        image.draw(in: CGRect(origin: .zero, size: image.size))
 
+        for view in imageView.subviews {
+            view.removeFromSuperview()
+        }
+
+        let glassImage = UIImage(named: "frameFront")!
+        let glassImageView = UIImageView(image: glassImage)
+
+        let glassSize = CGSize(width: 2.3 * distancePixels, height: distancePixels)
+        let glassOrigin = CGPoint(x: pointUIKit.x - (glassSize.width / 2), y: pointUIKit.y - (glassSize.height / 2))
+        glassImageView.frame = CGRect(origin: glassOrigin, size: glassSize)
+        self.rotateImageView(imageView: glassImageView, angle: angle)
+
+        imageView.addSubview(glassImageView)
     }
-    
+
+    func rotateImageView(imageView: UIImageView, angle: CGFloat) {
+        let layer = imageView.layer
+        var rotationAndPerspectiveTransform = CATransform3DIdentity
+        rotationAndPerspectiveTransform.m34 = 1.0 / -200
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * CGFloat.pi / 180.0), 0.0, 0.0, 1.0)
+        layer.transform = rotationAndPerspectiveTransform
+        layer.zPosition = 1000
+    }
 
     func drawFacePoints(source: UIImage,
                                     boundingRect: CGRect,

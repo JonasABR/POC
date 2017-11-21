@@ -106,8 +106,7 @@ class PreviewViewController: UIViewController, VideoCaptureDelegate {
                     self.imageView.image = image
 
                     if self.previewType == CaptureType.realtimeGlasses {
-                        let resultImage = self.drawer.drawGlasses(personPicture: image, boundingRect: boundsRect, face: face)
-                        self.imageView.image = resultImage
+                        self.drawer.drawGlasses(personImageView: self.imageView, boundingRect: boundsRect, face: face)
                     }
                 }
             }
