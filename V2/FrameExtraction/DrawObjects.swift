@@ -120,6 +120,23 @@ class DrawObjects: NSObject {
         let rightpupilPoint = landmarks?.rightPupil?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
             return lhs.y < rhs.y
         })
+
+        let APointRightEyebrow = landmarks?.leftEyebrow?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        let BPointRightEyebrow = landmarks?.leftEyebrow?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        let APointLeftEyebrow = landmarks?.rightEyebrow?.normalizedPoints.max(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        let BPointLeftEyebrow = landmarks?.rightEyebrow?.normalizedPoints.min(by: { (lhs, rhs) -> Bool in
+            return lhs.y < rhs.y
+        })
+        let rightEyebrowSize = APointLeftEyebrow?.distance(to: BPointLeftEyebrow!)
+        let leftEyebrowSize = APointRightEyebrow?.distance(to: BPointRightEyebrow!)
+        let eyebrowDelta = leftEyebrowSize! - rightEyebrowSize!
+
         
         let angle = ((leftpupilPoint?.angle(to: rightpupilPoint!))! * -1)
         let distance = (leftpupilPoint?.distance(to: rightpupilPoint!))!
@@ -148,9 +165,6 @@ class DrawObjects: NSObject {
         t = t.translatedBy(x: 0, y: -imageView.frame.size.height)
         let pointUIKit = CGPoint(x: positionX, y: framePositionY).applying(t)
 
-//        UIGraphicsBeginImageContext(image.size)
-//        image.draw(in: CGRect(origin: .zero, size: image.size))
-
         for view in imageView.subviews {
             view.removeFromSuperview()
         }
@@ -161,16 +175,18 @@ class DrawObjects: NSObject {
         let glassSize = CGSize(width: 2.3 * distancePixels, height: distancePixels)
         let glassOrigin = CGPoint(x: pointUIKit.x - (glassSize.width / 2), y: pointUIKit.y - (glassSize.height / 2))
         glassImageView.frame = CGRect(origin: glassOrigin, size: glassSize)
-        self.rotateImageView(imageView: glassImageView, angle: angle)
+        self.rotateImageView(imageView: glassImageView, angleZ: angle, angleY: 130 * eyebrowDelta)
+
 
         imageView.addSubview(glassImageView)
     }
 
-    func rotateImageView(imageView: UIImageView, angle: CGFloat) {
+    func rotateImageView(imageView: UIImageView, angleZ: CGFloat, angleY: CGFloat) {
         let layer = imageView.layer
         var rotationAndPerspectiveTransform = CATransform3DIdentity
-        rotationAndPerspectiveTransform.m34 = 1.0 / -200
-        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angle * CGFloat.pi / 180.0), 0.0, 0.0, 1.0)
+        rotationAndPerspectiveTransform.m34 = 1.0 / -100
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angleZ * CGFloat.pi / 180.0), 0.0, 0.0, 1.0)
+        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(angleY * CGFloat.pi / 180.0), 0.0, 1.0, 0.0)
         layer.transform = rotationAndPerspectiveTransform
         layer.zPosition = 1000
     }
